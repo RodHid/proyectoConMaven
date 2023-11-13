@@ -1,0 +1,37 @@
+/* 
+    Created on : Nov 12, 2023 $date
+    Author     : Rodrigo Hidalgo
+*/
+
+a {
+    text-decoration: none;
+}
+    
+.ui-card-header {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+#user-logo {
+    width: 9rem !important;
+    height: 9rem !important;
+}
+
+#user-logo > span {
+    font-size: 3rem;
+}
+
+body .ui-card  {
+    box-shadow: none;
+    width: 35rem;
+}
+
+div.ui-card-body > div {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
