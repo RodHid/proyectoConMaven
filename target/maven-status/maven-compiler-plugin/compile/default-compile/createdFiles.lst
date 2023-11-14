@@ -1,3 +1,10 @@
-com\itca\beans\UserBean.class
+com\itca\entities\UserRoles.class
+com\itca\entities\RequestedDevices.class
+com\itca\entities\Request.class
 com\itca\proyecto\JakartaRestConfiguration.class
+com\itca\entities\Devices.class
+com\itca\beans\UserBean.class
+com\itca\entities\Roles.class
+com\itca\entities\DeviceTypes.class
+com\itca\entities\Users.class
 com\itca\proyecto\resources\JakartaEE10Resource.class
