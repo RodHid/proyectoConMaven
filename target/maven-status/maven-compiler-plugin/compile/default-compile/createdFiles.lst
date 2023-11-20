@@ -1,6 +1,7 @@
 com\connection\DatabaseConnection.class
 com\persistence\entities\Request.class
 com\beans\LoginBean.class
+com\sessions\SessionFilter.class
 com\beans\UsersBean.class
 com\persistence\entities\Users.class
 com\persistence\entities\RequestedDevices.class
