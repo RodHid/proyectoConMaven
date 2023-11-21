@@ -26,7 +26,7 @@ public class Devices {
     private Date createdAt;
     private Date updatedAt;
     private Date deletedAt;
-    private DeviceTypes deviceType;
+    private String deviceType; //deviceTypes
     private Users createdBy;
 
     public Devices() {
@@ -108,11 +108,11 @@ public class Devices {
         this.deletedAt = deletedAt;
     }
 
-    public DeviceTypes getDeviceType() {
+    public String getDeviceType() {//deviceTypes
         return deviceType;
     }
 
-    public void setDeviceType(DeviceTypes deviceType) {
+    public void setDeviceType(String deviceType) {//deviceTypes
         this.deviceType = deviceType;
     }
 
