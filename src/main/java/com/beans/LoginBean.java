@@ -37,7 +37,6 @@ public class LoginBean implements Serializable {
 
     public String validateLogin() {
         Users user = usersDao.getUserByUsername(username);
-        System.out.println("USER:\n"+user.getGivenName());
         if (user != null && validatePassword(user.getUserPassword(), password)) {
             // Crear la variable de sesión 'activeUser'
             Users activeUser = new Users(user.getId(), user.getUsername(), user.getGivenName(), user.getFamilyName());
@@ -52,7 +51,7 @@ public class LoginBean implements Serializable {
                             "Login successful"
                     )
             );
-            return "pages/user/registration.xhtml?faces-redirect=true";
+            return "pages/user/users-list.xhtml?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Credenciales inválidas"));

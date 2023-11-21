@@ -1,7 +1,9 @@
 
 package com.persistence.entities;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @ClassName: Users
@@ -11,7 +13,7 @@ import java.util.Date;
  * @author Rodrigo Hidalgo
  */
 
-public class Users {
+public class Users implements Serializable{
 
     private String id;
     private String username;
@@ -22,7 +24,8 @@ public class Users {
     private Date createdAt;
     private Date updatedAt;
     private Date deletedAt;
-
+    private List<Roles> roles; // Agregamos una lista de roles
+    
     public Users() {
     }
 
@@ -118,4 +121,14 @@ public class Users {
     public void setDeletedAt(Date deletedAt) {
         this.deletedAt = deletedAt;
     }
+
+    public List<Roles> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Roles> roles) {
+        this.roles = roles;
+    }
+    
+    
 }
