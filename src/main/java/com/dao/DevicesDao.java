@@ -28,7 +28,7 @@ public class DevicesDao {
     }
     // Métodos CRUD
 
-    public void createDevices(Devices device) {
+    public void createDevices(Devices device, String selectedType) {
         String sql = "INSERT INTO devices (device_name, description, adquisition_date, device_type) VALUES (?, ?, ?, ?)";
         try (Connection connection = databaseConnection.connect();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
@@ -92,7 +92,7 @@ public class DevicesDao {
         return null;
     }
 
-    public void updateDevice(Devices device) {
+    public void updateDevice(Devices device, String selectedType) {
         String sql = "UPDATE devices SET device_name=?, description=?, adquisition_date=?, device_type=?, updated_at=CURRENT_TIMESTAMP() WHERE id=?";
         try (Connection connection = databaseConnection.connect();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
