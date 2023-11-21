@@ -14,7 +14,7 @@ public class DeviceTypes {
 
     private String id;
     private String typeName;
-    private Integer typeDescription;
+    private String typeDescription;
     private boolean isActive;
     private Date createdAt;
     private Date updatedAt;
@@ -51,11 +51,11 @@ public class DeviceTypes {
         this.typeName = typeName;
     }
 
-    public Integer getTypeDescription() {
+    public String getTypeDescription() {
         return typeDescription;
     }
 
-    public void setTypeDescription(Integer typeDescription) {
+    public void setTypeDescription(String typeDescription) {
         this.typeDescription = typeDescription;
     }
 

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Tabla de Roles</title>
+</h:head>
+
+<h:body>
+    <h:form id="rolesForm">
+
+        <!-- Mostrar la tabla de roles -->
+        <p:dataTable id="rolesTable" value="#{rolesBean.roles}" var="role">
+
+            <!-- Definir las columnas de la tabla -->
+            <p:column headerText="ID">
+                <h:outputText value="#{role.id}" />
+            </p:column>
+            <p:column headerText="Nombre">
+                <h:outputText value="#{role.name}" />
+            </p:column>
+            <p:column headerText="Descripción">
+                <h:outputText value="#{role.description}" />
+            </p:column>
+
+            <!-- Agregar un botón para el soft delete -->
+            <p:column>
+                <p:commandButton value="Eliminar" action="#{rolesBean.confirmDeleteRole(role)}" update="confirmationDialog" />
+            </p:column>
+
+        </p:dataTable>
+
+        <!-- Diálogo de confirmación para el soft delete -->
+        <p:confirmDialog id="confirmationDialog" message="¿Estás seguro de que quieres eliminar este rol?"
+                         header="Confirmar Eliminación" severity="alert" widgetVar="confirmationVar">
+
+            <p:commandButton value="Sí" oncomplete="confirmationVar.hide()" action="#{rolesBean.softDeleteRole}" update="rolesTable"/>
+            <p:commandButton value="No" oncomplete="confirmationVar.hide()"/>
+
+        </p:confirmDialog>
+
+    </h:form>
+</h:body>
+
+</html>
