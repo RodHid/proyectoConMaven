@@ -6,6 +6,8 @@ package com.beans;
 import com.connection.DatabaseConnection;
 import com.dao.DevicesDao;
 import com.persistence.entities.Devices;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 
 import java.util.List;
 
@@ -14,14 +16,16 @@ import java.util.List;
  *
  * @author Usuario
  */
-public class DevicesBean {
+@Named(value = "devicesListBean")
+@RequestScoped
+public class DevicesListBean {
     
 
     private DevicesDao devicesDao;
     private List<Devices> devicesList;
     private Devices selectedDevice;
 
-    public DevicesBean() {
+    public DevicesListBean() {
         this.devicesDao = new DevicesDao(new DatabaseConnection());
         this.devicesList = devicesDao.getAllDevices();
         this.selectedDevice = new Devices();
@@ -39,22 +43,6 @@ public class DevicesBean {
 
     public void setSelectedDevice(Devices selectedDevice) {
         this.selectedDevice = selectedDevice;
-    }
-
-    // Método para guardar o actualizar un dispositivo
-    public void saveDevice() {
-        // Lógica para guardar o actualizar un dispositivo
-        if (selectedDevice.getId() == null || selectedDevice.getId().isEmpty()) {
-            devicesDao.createDevices(selectedDevice);
-        } else {
-            devicesDao.updateDevice(selectedDevice);
-        }
-
-        // Recargar la lista de dispositivos después de guardar o actualizar
-        devicesList = devicesDao.getAllDevices();
-
-        // Limpiar el dispositivo seleccionado
-        selectedDevice = new Devices();
     }
 
     // Método para eliminar suavemente un dispositivo
