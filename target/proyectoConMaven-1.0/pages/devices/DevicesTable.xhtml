@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Tabla de Dispositivos</title>
+</h:head>
+
+<h:body>
+    <h:form id="devicesForm">
+
+        <!-- Mostrar la tabla de dispositivos -->
+        <p:dataTable id="devicesTable" value="#{devicesBean.devices}" var="device">
+
+            <!-- Definir las columnas de la tabla -->
+            <p:column headerText="ID">
+                <h:outputText value="#{device.id}" />
+            </p:column>
+            <p:column headerText="Nombre del Dispositivo">
+                <h:outputText value="#{device.deviceName}" />
+            </p:column>
+            <p:column headerText="Descripción">
+                <h:outputText value="#{device.description}" />
+            </p:column>
+            <p:column headerText="Fecha de Adquisición">
+                <h:outputText value="#{device.adquisitionDate}" />
+            </p:column>
+            <p:column headerText="Tipo de Dispositivo">
+                <h:outputText value="#{device.deviceType}" />
+            </p:column>
+
+            <!-- Agregar un botón para el soft delete -->
+            <p:column>
+                <p:commandButton value="Eliminar" action="#{devicesBean.confirmDeleteDevice(device)}" update="confirmationDialog" />
+            </p:column>
+
+        </p:dataTable>
+
+        <!-- Diálogo de confirmación para el soft delete -->
+        <p:confirmDialog id="confirmationDialog" message="¿Estás seguro de que quieres eliminar este dispositivo?"
+                         header="Confirmar Eliminación" severity="alert" widgetVar="confirmationVar">
+
+            <p:commandButton value="Sí" oncomplete="confirmationVar.hide()" action="#{devicesBean.softDeleteDevice}" update="devicesTable"/>
+            <p:commandButton value="No" oncomplete="confirmationVar.hide()"/>
+
+        </p:confirmDialog>
+
+    </h:form>
+</h:body>
+
+</html>
+

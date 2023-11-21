@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Tabla de Solicitudes</title>
+</h:head>
+
+<h:body>
+    <h:form id="requestForm">
+
+        <!-- Mostrar la tabla de solicitudes -->
+        <p:dataTable id="requestTable" value="#{requestBean.requests}" var="request">
+
+            <!-- Definir las columnas de la tabla -->
+            <p:column headerText="ID">
+                <h:outputText value="#{request.id}" />
+            </p:column>
+            <p:column headerText="Solicitado por">
+                <h:outputText value="#{request.requestedBy}" />
+            </p:column>
+            <p:column headerText="Fecha de Préstamo">
+                <h:outputText value="#{request.loanDate}" />
+            </p:column>
+            <p:column headerText="Aceptado por">
+                <h:outputText value="#{request.acceptedBy}" />
+            </p:column>
+
+            <!-- Agregar un botón para el soft delete -->
+            <p:column>
+                <p:commandButton value="Eliminar" action="#{requestBean.confirmDeleteRequest(request)}" update="confirmationDialog" />
+            </p:column>
+
+        </p:dataTable>
+
+        <!-- Diálogo de confirmación para el soft delete -->
+        <p:confirmDialog id="confirmationDialog" message="¿Estás seguro de que quieres eliminar esta solicitud?"
+                         header="Confirmar Eliminación" severity="alert" widgetVar="confirmationVar">
+
+            <p:commandButton value="Sí" oncomplete="confirmationVar.hide()" action="#{requestBean.softDeleteRequest}" update="requestTable"/>
+            <p:commandButton value="No" oncomplete="confirmationVar.hide()"/>
+
+        </p:confirmDialog>
+
+    </h:form>
+</h:body>
+
+</html>

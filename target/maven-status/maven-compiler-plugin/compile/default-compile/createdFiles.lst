@@ -4,7 +4,6 @@ com\dao\RequestDao.class
 com\persistence\entities\Request.class
 com\beans\DeviceTypeBean.class
 com\beans\LoginBean.class
-com\sessions\SessionFilter.class
 com\beans\UsersBean.class
 com\persistence\entities\RequestedDevices.class
 com\dao\RequestedDevicesDao.class
@@ -22,6 +21,7 @@ com\dao\UserRolesDao.class
 com\beans\DevicesBean.class
 com\dao\DevicesDao.class
 com\beans\UserRolesBean.class
+com\sessions\SessionFilter.class
 com\persistence\entities\Users.class
 com\config\resources\JakartaEE10Resource.class
 com\dao\DeviceTypeDao.class

@@ -98,6 +98,7 @@ public class UserRolesDao {
         }
         return userRoles;
     }
+    
    
     public void updateUserRole(UserRoles userRole) {
         String sql = "UPDATE user_role SET role_id=?, updated_at=CURRENT_TIMESTAMP() WHERE id=?";
