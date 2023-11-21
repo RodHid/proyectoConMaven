@@ -26,18 +26,15 @@ public class SessionFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // Initialization code, if needed
-        System.out.println("INICIA FILTRO");
     }
 
     @Override
     public void doFilter(ServletRequest sr, ServletResponse sr1, FilterChain fc)
             throws IOException, ServletException {
         // ... tu lógica del filtro ...
-    System.out.println("Filter executing");
     
         HttpServletRequest request = (HttpServletRequest) sr;
         HttpServletResponse response = (HttpServletResponse) sr1;
-        System.out.println("CONTEXTO ALV"+ request.getContextPath());    
         HttpSession session = request.getSession(false);
 
         if (session == null || session.getAttribute("activeUser") == null) {
@@ -53,7 +50,6 @@ public class SessionFilter implements Filter {
     public void destroy() {
         // Cleanup code, if needed
         // ... tu lógica del filtro ...
-    System.out.println("Filter DESTROY");
     }
 }
 

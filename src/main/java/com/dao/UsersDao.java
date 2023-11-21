@@ -2,7 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 package com.dao;
 
 /**
@@ -30,18 +29,36 @@ public class UsersDao {
     }
 
     // Create
-    public void createUser(Users user) {
-        String sql = "INSERT INTO users (username, user_password, given_name, family_name) VALUES (?, ?, ?, ?)";
+    public void createUser(Users user, Users loggedUser, String roleId) {
+        String createUserSQL = "INSERT INTO users (username, user_password, given_name, family_name) VALUES (?, ?, ?, ?)";
+        String createUserRoleSQL = "INSERT INTO user_role (user_id, role_id, created_by) VALUES (?, ?, ?)";
 
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement createUserStatement = connection.prepareStatement(createUserSQL); PreparedStatement createUserRoleStatement = connection.prepareStatement(createUserRoleSQL)) {
 
-            preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getUserPassword());
-            preparedStatement.setString(3, user.getGivenName());
-            preparedStatement.setString(4, user.getFamilyName());
+            connection.setAutoCommit(false);
 
-            preparedStatement.executeUpdate();
+            try {
+                // Create user
+                createUserStatement.setString(1, user.getUsername());
+                createUserStatement.setString(2, user.getUserPassword());
+                createUserStatement.setString(3, user.getGivenName());
+                createUserStatement.setString(4, user.getFamilyName());
+                createUserStatement.executeUpdate();
+
+                // Assign default role "User" to the user
+                createUserRoleStatement.setString(1, user.getId());
+                createUserRoleStatement.setString(2, roleId);
+                createUserRoleStatement.setString(3, loggedUser.getId()); // Created by the user
+                createUserRoleStatement.executeUpdate();
+
+                connection.commit();
+                System.out.println("GUARDADO");
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -55,8 +72,7 @@ public class UsersDao {
         Users user = null;
         String sql = "SELECT * FROM users WHERE id = ? AND deleted_at IS NULL";
 
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setString(1, userId);
 
@@ -76,10 +92,9 @@ public class UsersDao {
 
     public List<Users> getAllUsers() {
         List<Users> usersList = new ArrayList<>();
-        String sql = "SELECT * FROM users WHERE deleted_at IS NULL and is_active IS TRUE";
+        String sql = "SELECT * FROM users";
 
-        try (Connection connection = databaseConnection.connect();
-             Statement statement = connection.createStatement()) {
+        try (Connection connection = databaseConnection.connect(); Statement statement = connection.createStatement()) {
 
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
@@ -95,7 +110,7 @@ public class UsersDao {
 
         return usersList;
     }
-    
+
     //Get User By Username
     public Users getUserByUsername(String username) {
         Connection connection = null;
@@ -127,9 +142,15 @@ public class UsersDao {
             e.printStackTrace();
         } finally {
             try {
-                if (resultSet != null) resultSet.close();
-                if (preparedStatement != null) preparedStatement.close();
-                if (connection != null) connection.close();
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -139,21 +160,36 @@ public class UsersDao {
     }
 
     // Update
-    public void updateUser(Users user) {
-        String sql = "UPDATE users SET username = ?, user_password = ?, given_name = ?, family_name = ?, is_active = ?, updated_at = ? WHERE id = ?";
+    public void updateUser(Users user, Users loggedUser, String roleId) {
+        String updateUserSQL = "UPDATE users SET username = ?, user_password = ?, given_name = ?, family_name = ? WHERE id = ?";
+        String updateUserRoleSQL = "UPDATE user_role SET role_id = ?, updated_by = ? WHERE user_id = ?";
 
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement updateUserStatement = connection.prepareStatement(updateUserSQL); PreparedStatement updateUserRoleStatement = connection.prepareStatement(updateUserRoleSQL)) {
 
-            preparedStatement.setString(1, user.getUsername());
-            preparedStatement.setString(2, user.getUserPassword());
-            preparedStatement.setString(3, user.getGivenName());
-            preparedStatement.setString(4, user.getFamilyName());
-            preparedStatement.setBoolean(5, user.getIsActive());
-            preparedStatement.setTimestamp(6, new Timestamp(new Date().getTime()));
-            preparedStatement.setString(7, user.getId());
+            connection.setAutoCommit(false);
 
-            preparedStatement.executeUpdate();
+            try {
+                // Update user information
+                updateUserStatement.setString(1, user.getUsername());
+                updateUserStatement.setString(2, user.getUserPassword());
+                updateUserStatement.setString(3, user.getGivenName());
+                updateUserStatement.setString(4, user.getFamilyName());
+                updateUserStatement.setString(5, user.getId());
+                updateUserStatement.executeUpdate();
+
+                // Update user role
+                updateUserRoleStatement.setString(1, roleId);
+                updateUserRoleStatement.setString(2, loggedUser.getId()); // Updated by the user
+                updateUserRoleStatement.setString(3, user.getId());
+                updateUserRoleStatement.executeUpdate();
+
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                throw e;
+            } finally {
+                connection.setAutoCommit(true);
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -164,16 +200,13 @@ public class UsersDao {
 
     // Soft Delete
     public void softDeleteUser(String userId) {
-        String sql = "UPDATE users SET deleted_at = ? WHERE id = ?";
-
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        String sql = "UPDATE users SET deleted_at = ?, is_active = 0 WHERE id = ?";
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 
             preparedStatement.setTimestamp(1, new Timestamp(new Date().getTime()));
             preparedStatement.setString(2, userId);
-
+            
             preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -181,7 +214,7 @@ public class UsersDao {
         }
     }
 
-     private Users mapResultSetToUser(ResultSet resultSet) throws SQLException {
+    private Users mapResultSetToUser(ResultSet resultSet) throws SQLException {
         Users user = new Users();
         user.setId(resultSet.getString("id"));
         user.setUsername(resultSet.getString("username"));
