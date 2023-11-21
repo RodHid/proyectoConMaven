@@ -7,6 +7,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpSession;
 import java.io.Serializable;
+import javax.management.relation.Role;
 
 /**
  * @ClassName: UserSessionBean
@@ -21,6 +22,7 @@ import java.io.Serializable;
 public class UserSessionBean implements Serializable {
     
     private Users selectedUser;
+    private Role activeUser;
 
     public Users getSelectedUser() {
         return selectedUser;
@@ -36,6 +38,16 @@ public class UserSessionBean implements Serializable {
         HttpSession session = (HttpSession) externalContext.getSession(false);
         if (session.getAttribute("activeUser") != null) {
            return (Users) session.getAttribute("activeUser");
+        }
+        return null;
+    }
+    
+    public Role getUserRole() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpSession session = (HttpSession) externalContext.getSession(false);
+        if (session.getAttribute("userRole") != null) {
+           return (Role) session.getAttribute("userRole");
         }
         return null;
     }
