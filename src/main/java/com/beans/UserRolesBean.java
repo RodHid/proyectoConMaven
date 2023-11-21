@@ -7,70 +7,51 @@ package com.beans;
 import com.connection.DatabaseConnection;
 import com.dao.UserRolesDao;
 import com.persistence.entities.UserRoles;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import jakarta.inject.Inject;
+import java.io.Serializable;
 import java.util.List;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
-
-
-
 
 /**
  *
  * @author Usuario
  */
-public class UserRolesBean {
+public class UserRolesBean implements Serializable {
 
 
     private UserRolesDao userRolesDao;
     private List<UserRoles> userRolesList;
-    private UserRoles selectedUserRole;
+     @Inject
+    UserRolesSessionBean userRolesSessionBean;
+   
 
     public UserRolesBean() {
         this.userRolesDao = new UserRolesDao(new DatabaseConnection());
         this.userRolesList = userRolesDao.getAllUserRoles();
-        this.selectedUserRole = new UserRoles();
-    }
-
-    // Métodos de acceso a datos y propiedades
+       
+    }    
+   
 
     public List<UserRoles> getUserRolesList() {
+       if (userRolesList == null) {
+            loadUserRolesList();
+        }
         return userRolesList;
     }
-
-    public UserRoles getSelectedUserRole() {
-        return selectedUserRole;
-    }
-
-    public void setSelectedUserRole(UserRoles selectedUserRole) {
-        this.selectedUserRole = selectedUserRole;
-    }
-
-    // Método para guardar o actualizar un UserRole
-    public void saveUserRole() {
-        // Lógica para guardar o actualizar un UserRole
-        if (selectedUserRole.getId() == null || selectedUserRole.getId().isEmpty()) {
-            userRolesDao.createUserRole(selectedUserRole);
-        } else {
-            userRolesDao.updateUserRole(selectedUserRole);
-        }
-
-        // Recargar la lista de UserRoles después de guardar o actualizar
-        userRolesList = userRolesDao.getAllUserRoles();
-
-        // Limpiar el UserRole seleccionado
-        selectedUserRole = new UserRoles();
-    }
-
-    // Método para eliminar suavemente un UserRole
-    public void deleteSoftUserRole(String userRoleId) {
-        // Lógica para eliminar suavemente un UserRole
-        userRolesDao.softDeleteUserRole(userRoleId);
-
-        // Recargar la lista de UserRoles después de eliminar suavemente
+     
+    private void loadUserRolesList() {
         userRolesList = userRolesDao.getAllUserRoles();
     }
+    public String editUserRoles(UserRoles userRol) {
+        this.userRolesSessionBean.setSelectedUserRoles(userRol);
+        return "user-form.xhtml?faces-redirect=true";
+    }
+
+    public void deleteSoftUser(String userRolesId) {
+        // Lógica para eliminar suavemente un usuario
+        userRolesDao.softDeleteUserRole(userRolesId);
+        // Recargar la lista de usuarios después de eliminar suavemente
+        loadUserRolesList();
+    }
+
+       
 }
