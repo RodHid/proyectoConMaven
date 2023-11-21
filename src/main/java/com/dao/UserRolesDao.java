@@ -12,9 +12,7 @@ package com.dao;
  */
 
 import com.connection.DatabaseConnection;
-import com.persistence.entities.Roles;
 import com.persistence.entities.UserRoles;
-import com.persistence.entities.Users;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
