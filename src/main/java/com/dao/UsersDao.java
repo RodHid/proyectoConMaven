@@ -17,6 +17,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class UsersDao {
 
@@ -30,7 +31,7 @@ public class UsersDao {
 
     // Create
     public void createUser(Users user, Users loggedUser, String roleId) {
-        String createUserSQL = "INSERT INTO users (username, user_password, given_name, family_name) VALUES (?, ?, ?, ?)";
+        String createUserSQL = "INSERT INTO users (id, username, user_password, given_name, family_name) VALUES (?, ?, ?, ?, ?)";
         String createUserRoleSQL = "INSERT INTO user_role (user_id, role_id, created_by) VALUES (?, ?, ?)";
 
         try (Connection connection = databaseConnection.connect(); PreparedStatement createUserStatement = connection.prepareStatement(createUserSQL); PreparedStatement createUserRoleStatement = connection.prepareStatement(createUserRoleSQL)) {
@@ -38,11 +39,14 @@ public class UsersDao {
             connection.setAutoCommit(false);
 
             try {
+                UUID uuid = UUID.randomUUID();
+                user.setId(uuid.toString());
                 // Create user
-                createUserStatement.setString(1, user.getUsername());
-                createUserStatement.setString(2, user.getUserPassword());
-                createUserStatement.setString(3, user.getGivenName());
-                createUserStatement.setString(4, user.getFamilyName());
+                createUserStatement.setString(1, user.getId());
+                createUserStatement.setString(2, user.getUsername());
+                createUserStatement.setString(3, user.getUserPassword());
+                createUserStatement.setString(4, user.getGivenName());
+                createUserStatement.setString(5, user.getFamilyName());
                 createUserStatement.executeUpdate();
 
                 // Assign default role "User" to the user

@@ -20,7 +20,7 @@ import jakarta.inject.Named;
 import jakarta.servlet.http.HttpSession;
 import java.io.Serializable;
 
-@Named(value = "sessionBean")
+@Named(value = "deviceSessionBean")
 
 @SessionScoped
 public class DeviceSessionBean implements Serializable  {

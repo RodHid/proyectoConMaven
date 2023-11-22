@@ -42,6 +42,7 @@ public class UsersFormBean implements Serializable {
         this.usersDao = new UsersDao(this.connection);
         this.rolesDao = new RolesDao(this.connection);
         this.allRoles = rolesDao.getAllRoles();
+        this.selectedUser = new Users();
     }
 
     public String getRoleSelected() {
@@ -51,14 +52,9 @@ public class UsersFormBean implements Serializable {
     public void setRoleSelected(String roleSelected) {
         this.selectedRole = roleSelected;
     }
-    
-    
 
     public Users getSelectedUser() {
-        if (this.sessionBean.getSelectedUser() != null) {
-            return this.sessionBean.getSelectedUser();
-        }
-        return selectedUser;
+        return (this.sessionBean.getSelectedUser() != null) ? this.sessionBean.getSelectedUser() : selectedUser;
     }
 
     public void setSelectedUser(Users selectedUser) {
@@ -74,7 +70,7 @@ public class UsersFormBean implements Serializable {
     }
 
     // Método para guardar o actualizar un usuario
-    public void saveUser() {
+    public String saveUser() {
         // Get Logged User from session
         this.loggedUser = this.sessionBean.getActiveUser();
         // Encriptar la contraseña con MD5 antes de guardar o actualizar
@@ -90,6 +86,9 @@ public class UsersFormBean implements Serializable {
 
         // Limpiar el usuario seleccionado
         selectedUser = new Users();
+
+        // Redirigir a la lista
+        return "/pages/user/users-list.xhtml?faces-redirect=true";
     }
 
     private static String encryptSHA256(String password) {

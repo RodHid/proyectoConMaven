@@ -4,52 +4,48 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
 -->
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-
-<h:head>
-    <title>Tabla de Solicitudes</title>
-</h:head>
-
-<h:body>
-    <h:form id="requestForm">
-
-        <!-- Mostrar la tabla de solicitudes -->
-        <p:dataTable id="requestTable" value="#{requestBean.requests}" var="request">
-
-            <!-- Definir las columnas de la tabla -->
-            <p:column headerText="ID">
-                <h:outputText value="#{request.id}" />
-            </p:column>
-            <p:column headerText="Solicitado por">
-                <h:outputText value="#{request.requestedBy}" />
-            </p:column>
-            <p:column headerText="Fecha de Préstamo">
-                <h:outputText value="#{request.loanDate}" />
-            </p:column>
-            <p:column headerText="Aceptado por">
-                <h:outputText value="#{request.acceptedBy}" />
-            </p:column>
-
-            <!-- Agregar un botón para el soft delete -->
-            <p:column>
-                <p:commandButton value="Eliminar" action="#{requestBean.confirmDeleteRequest(request)}" update="confirmationDialog" />
-            </p:column>
-
-        </p:dataTable>
-
-        <!-- Diálogo de confirmación para el soft delete -->
-        <p:confirmDialog id="confirmationDialog" message="¿Estás seguro de que quieres eliminar esta solicitud?"
-                         header="Confirmar Eliminación" severity="alert" widgetVar="confirmationVar">
-
-            <p:commandButton value="Sí" oncomplete="confirmationVar.hide()" action="#{requestBean.softDeleteRequest}" update="requestTable"/>
-            <p:commandButton value="No" oncomplete="confirmationVar.hide()"/>
-
-        </p:confirmDialog>
-
-    </h:form>
-</h:body>
-
-</html>
+<ui:composition template="/pages/PageTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="content">
+        <h:form  class="p-5">
+            <p:confirmDialog global="true">
+                <p:commandButton value="Si" type="button"
+                                 styleClass="ui-confirmdialog-yes ui-button-danger" icon="pi pi-check" />
+                <p:commandButton value="No" type="button"
+                                 styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+            </p:confirmDialog>
+            <div class="flex flex-row justify-content-end mb-3">
+                <p:commandButton value="Crear Nuevo" action="/pages/request/request-form.xhtml?faces-redirect=true"></p:commandButton>
+            </div>
+            <p:dataTable var="requestTable" value="#{requestBean.requestList}" >
+                <!-- Definir las columnas de la tabla -->
+                <p:column headerText="ID">
+                    <h:outputText value="#{requestTable.id}" />
+                </p:column>
+                <p:column headerText="Solicitado por">
+                    <h:outputText value="#{requestTable.requestedBy}" />
+                </p:column>
+                <p:column headerText="Fecha de Préstamo">
+                    <h:outputText value="#{requestTable.loanDate}" />
+                </p:column>
+                <p:column headerText="Aceptado por">
+                    <h:outputText value="#{requestTable.acceptedBy}" />
+                </p:column>
+                <p:column headerText="Acciones">
+                    <div class="flex flex-row justify-content-between w-12rem">
+<!--   <p:commandButton value="Editar" action="" styleClass="ui-button-secondary"/>-->
+                        <p:commandButton value="Eliminar" actionListener="#{requestBean.deleteSoftRequest(requestId)}" styleClass="ui-button-danger">
+                            <p:confirm header="Confirmacion"
+                                       message="¿Está seguro de eliminar esta Solicitud?"
+                                       icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </div>
+                </p:column>
+            </p:dataTable>
+        </h:form>       
+    </ui:define>
+</ui:composition>

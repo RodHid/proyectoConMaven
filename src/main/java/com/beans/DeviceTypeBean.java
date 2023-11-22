@@ -16,10 +16,6 @@ import java.util.List;
  */
 public class DeviceTypeBean {
     
-
-
-
-
     private DeviceTypeDao deviceTypeDao;
     private List<DeviceTypes> deviceTypesList;
     private DeviceTypes selectedDeviceType;

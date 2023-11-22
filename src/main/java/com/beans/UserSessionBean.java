@@ -1,5 +1,6 @@
 package com.beans;
 
+import com.persistence.entities.Roles;
 import com.persistence.entities.Users;
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.context.ExternalContext;
@@ -7,7 +8,6 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpSession;
 import java.io.Serializable;
-import javax.management.relation.Role;
 
 /**
  * @ClassName: UserSessionBean
@@ -22,7 +22,9 @@ import javax.management.relation.Role;
 public class UserSessionBean implements Serializable {
     
     private Users selectedUser;
-    private Role activeUser;
+    private Roles activeUser;
+    private String userRole;
+    
 
     public Users getSelectedUser() {
         return selectedUser;
@@ -30,6 +32,10 @@ public class UserSessionBean implements Serializable {
 
     public void setSelectedUser(Users selectedUser) {
         this.selectedUser = selectedUser;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
     public Users getActiveUser() {
@@ -42,12 +48,12 @@ public class UserSessionBean implements Serializable {
         return null;
     }
     
-    public Role getUserRole() {
+    public String getUserRole() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         HttpSession session = (HttpSession) externalContext.getSession(false);
         if (session.getAttribute("userRole") != null) {
-           return (Role) session.getAttribute("userRole");
+           return (String) session.getAttribute("userRole");
         }
         return null;
     }

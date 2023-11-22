@@ -48,7 +48,10 @@ public class LoginBean implements Serializable {
         Users user = usersDao.getUserByUsername(username);
         if (user != null && validatePassword(user.getUserPassword(), password)) {
             List<UserRoles> userRoles = userRolesDao.getUserRolesByUserId(user.getId());
-            Roles role = roleDao.getRolesById(userRoles.get(0).getId());
+            String roleId = userRoles.get(0).getRoleId();
+            System.out.println("ROLEID"+roleId);
+            Roles role = roleDao.getRolesById(roleId);
+            System.out.println("ROLE"+role);
             // Crear la variable de sesión 'activeUser'
             Users activeUser = new Users(user.getId(), user.getUsername(), user.getGivenName(), user.getFamilyName());
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
