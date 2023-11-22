@@ -1,4 +1,4 @@
-package com.persistence.entities;
+    package com.persistence.entities;
 import java.util.Date;
 
 /**
@@ -16,9 +16,9 @@ public class UserRoles {
     private Date createdAt;
     private Date updatedAt;
     private Date deletedAt;
-    private Users createdBy;
-    private Roles roleId;
-    private Users userId;
+    private String createdBy;
+    private String roleId;
+    private String userId;
 
     public UserRoles() {
     }
@@ -73,27 +73,27 @@ public class UserRoles {
         this.deletedAt = deletedAt;
     }
 
-    public Users getCreatedBy() {
+    public String getCreatedBy() {
         return createdBy;
     }
 
-    public void setCreatedBy(Users createdBy) {
+    public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
 
-    public Roles getRoleId() {
+    public String getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(Roles roleId) {
+    public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
 
-    public Users getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Users userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

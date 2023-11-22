@@ -15,12 +15,12 @@
             <h:form class="px-5">
                 <div class="formgrid grid gap-5">
                     <div class="field col-5">
-                        <h:outputLabel for="username" value="Nombre de usuario" />
-                        <p:inputText id="username" value="#{devicesFormBean.selectedDevice.deviceName}" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                        <h:outputLabel for="deviceName" value="Nombre de dispositivo" />
+                        <p:inputText id="deviceName" value="#{devicesFormBean.selectedDevice.deviceName}" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
                     </div>
                     <div class="field col-5">
-                        <h:outputLabel for="password" value="Password" />
-                        <p:password id="password" value="#{devicesFormBean.selectedDevice.description}" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                        <h:outputLabel for="description" value="Password" />
+                        <p:password id="description" value="#{devicesFormBean.selectedDevice.description}" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
                     </div>
                     <div class="field col-5">
                         <h:outputLabel for="givenName" value="Nombres" />

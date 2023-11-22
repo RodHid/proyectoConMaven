@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -106,7 +105,6 @@ private final DatabaseConnection databaseConnection;
     private Request mapResultSet(ResultSet resultSet) throws SQLException {
         Request request = new Request();
         request.setId(resultSet.getString("id"));
-        
         request.setLoanDate(resultSet.getTimestamp("loan_date"));
         request.setCreatedAt(resultSet.getDate("created_at"));
         request.setUpdatedAt(resultSet.getTimestamp("updated_at"));

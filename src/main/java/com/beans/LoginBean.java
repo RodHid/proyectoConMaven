@@ -5,7 +5,11 @@
 package com.beans;
 
 import com.connection.DatabaseConnection;
+import com.dao.RolesDao;
+import com.dao.UserRolesDao;
 import com.dao.UsersDao;
+import com.persistence.entities.Roles;
+import com.persistence.entities.UserRoles;
 import com.persistence.entities.Users;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.faces.application.FacesMessage;
@@ -13,8 +17,7 @@ import jakarta.faces.context.FacesContext;
 import jakarta.inject.Named;
 import jakarta.servlet.http.HttpSession;
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 /**
  * @ClassName LoginBean
@@ -27,21 +30,33 @@ import java.security.NoSuchAlgorithmException;
 @RequestScoped
 public class LoginBean implements Serializable {
 
+    private DatabaseConnection databaseConnection;
     private UsersDao usersDao;
+    private UserRolesDao userRolesDao;
+    private RolesDao roleDao;
     private String username;
     private String password;
 
     public LoginBean() {
-        this.usersDao = new UsersDao(new DatabaseConnection());
+        this.databaseConnection = new DatabaseConnection();
+        this.usersDao = new UsersDao(this.databaseConnection);
+        this.userRolesDao = new UserRolesDao(this.databaseConnection);
+        this.roleDao = new RolesDao(this.databaseConnection);
     }
 
     public String validateLogin() {
         Users user = usersDao.getUserByUsername(username);
         if (user != null && validatePassword(user.getUserPassword(), password)) {
+            List<UserRoles> userRoles = userRolesDao.getUserRolesByUserId(user.getId());
+            String roleId = userRoles.get(0).getRoleId();
+            System.out.println("ROLEID"+roleId);
+            Roles role = roleDao.getRolesById(roleId);
+            System.out.println("ROLE"+role);
             // Crear la variable de sesión 'activeUser'
             Users activeUser = new Users(user.getId(), user.getUsername(), user.getGivenName(), user.getFamilyName());
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
             session.setAttribute("activeUser", activeUser);
+            session.setAttribute("userRole", role.getName());
             // Add a success message to the Growl component
             FacesContext.getCurrentInstance().addMessage(
                     null,
@@ -51,7 +66,7 @@ public class LoginBean implements Serializable {
                             "Login successful"
                     )
             );
-            return "pages/user/users-list.xhtml?faces-redirect=true";
+            return "pages/landing/home.xhtml?faces-redirect=true";
         } else {
             FacesContext.getCurrentInstance().addMessage(null,
                     new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Credenciales inválidas"));

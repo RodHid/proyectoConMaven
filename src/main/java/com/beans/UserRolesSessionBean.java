@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @author Usuario
  */
 
-@Named(value = "sessionBean")
+@Named(value = "userRoleSessionBean")
 @SessionScoped
 public class UserRolesSessionBean implements Serializable {
     

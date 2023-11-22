@@ -29,7 +29,7 @@ public class DevicesDao {
     // Métodos CRUD
 
     public void createDevices(Devices device, String selectedType) {
-        String sql = "INSERT INTO devices (device_name, description, adquisition_date, device_type) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO devices (id, device_name, description, adquisition_date, device_type) VALUES (?, ?, ?, ?, ?)";
         try (Connection connection = databaseConnection.connect();
              PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, device.getDeviceName());

@@ -20,9 +20,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
 public class UserRolesDao {
 
     private final DatabaseConnection databaseConnection;
@@ -116,11 +113,11 @@ public class UserRolesDao {
     private UserRoles mapResultSet(ResultSet resultSet) throws SQLException {
         UserRoles userRole = new UserRoles();
         userRole.setId(resultSet.getString("id"));
-        //userRole.setUserId(resultSet.getUsers("user_id"));
-        //userRole.setRoleId(resultSet.getRoles("role_id"));
+        userRole.setUserId(resultSet.getString("user_id"));
+        userRole.setRoleId(resultSet.getString("role_id"));
         userRole.setIsActive(resultSet.getBoolean("is_active"));
         userRole.setCreatedAt(resultSet.getDate("created_at"));
-        //userRole.setCreatedBy(resultSet.getUsers("created_by"));
+        userRole.setCreatedBy(resultSet.getString("created_by"));
         userRole.setUpdatedAt(resultSet.getDate("updated_at")) ;
         userRole.setDeletedAt(resultSet.getDate("deleted_at")) ;
         return userRole;

@@ -1,4 +1,6 @@
+com\beans\DevicesFormBean.class
 com\beans\UserListBean.class
+com\beans\RolesBean.class
 com\itca\conexion\conexion.class
 com\beans\RequestedDevicesBean.class
 com\dao\RequestDao.class
@@ -7,7 +9,6 @@ com\beans\DeviceTypeBean.class
 com\beans\LoginBean.class
 com\persistence\entities\RequestedDevices.class
 com\dao\RequestedDevicesDao.class
-com\itca\dao\RoleDao.class
 com\dao\RolesDao.class
 com\dao\UsersDao.class
 com\beans\RequestBean.class
@@ -19,11 +20,16 @@ com\persistence\entities\Roles.class
 com\connection\DatabaseConnection.class
 com\dao\UserRolesDao.class
 com\beans\DevicesBean.class
+com\beans\roleSessionBean.class
+com\beans\MenuBean.class
 com\beans\UserSessionBean.class
 com\dao\DevicesDao.class
 com\beans\UserRolesBean.class
 com\sessions\SessionFilter.class
 com\persistence\entities\Users.class
+com\beans\UserRolesSessionBean.class
+com\beans\DeviceSessionBean.class
 com\config\resources\JakartaEE10Resource.class
+com\beans\DevicesListBean.class
 com\beans\UsersFormBean.class
 com\dao\DeviceTypeDao.class

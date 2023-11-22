@@ -7,6 +7,8 @@ package com.beans;
 import com.connection.DatabaseConnection;
 import com.dao.RequestDao;
 import com.persistence.entities.Request;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Named;
 
 
 import java.util.List;
@@ -15,6 +17,8 @@ import java.util.List;
  *
  * @author Usuario
  */
+@Named(value = "requestBean")
+@RequestScoped
 public class RequestBean {
    
 
@@ -41,6 +45,10 @@ public class RequestBean {
 
     public void setSelectedRequest(Request selectedRequest) {
         this.selectedRequest = selectedRequest;
+    }
+    
+    public String create() {
+        return "/pages/request-form.xhtml?faces-redirect=true";
     }
 
     // Método para guardar o actualizar una solicitud

@@ -16,9 +16,13 @@
     <h:body>
 
         <div id="top" class="mb-5">
-            <p:menubar class="border-none">
-                <p:menuitem  value="Menú 1" action="#{menuBarBean.navigateToMenu1}" />
-            </p:menubar>
+            <h:form id="menu">
+                <p:menubar>
+                    <p:menuitem value="Usuarios" action="/pages/user/users-list.xhtml?faces-redirect=true" />
+                    <p:menuitem value="Solicitudes" action="/pages/request/request-list.xhtml?faces-redirect=true" />
+                    <p:menuitem value="Dispositivos" action="/pages/devices/devices-list.xhtml?faces-redirect=true" />
+                </p:menubar>
+            </h:form>
         </div>
 
         <div id="content" class="center_content">
@@ -26,16 +30,6 @@
         </div>
 
         <p:growl id="globalGrowl" showDetail="true" />
-
-        <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
-        </div>
-        <script>
-            function handleChange(event) {
-                var selectedValue = event.target.value;
-                console.log({selectedValue});
-            }
-        </script>
     </h:body>
 
 </html>

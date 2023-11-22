@@ -8,14 +8,16 @@
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
-        <h:form class="p-5">
+        <h:form  class="p-5">
             <p:confirmDialog global="true">
                 <p:commandButton value="Si" type="button"
                                  styleClass="ui-confirmdialog-yes ui-button-danger" icon="pi pi-check" />
                 <p:commandButton value="No" type="button"
                                  styleClass="ui-confirmdialog-no" icon="pi pi-times" />
             </p:confirmDialog>      
-
+            <div class="flex flex-row justify-content-end mb-3">
+                <p:commandButton value="Crear Nuevo" action="/pages/user/user-form.xhtml?faces-redirect=true"></p:commandButton>
+            </div>
             <p:dataTable var="user" value="#{usersListBean.userList}" >
                 <p:column headerText="Nombre de Usuario">
                     <h:outputText value="#{user.username}" />

@@ -21,6 +21,7 @@ public class DevicesBean implements Serializable{
     private DevicesDao devicesDao;
     private List<Devices> devicesList;
     private Devices selectedDevice;
+    private String selectedType;
 
     public DevicesBean() {
         this.devicesDao = new DevicesDao(new DatabaseConnection());
@@ -43,6 +44,15 @@ public class DevicesBean implements Serializable{
     public void setSelectedDevice(Devices selectedDevice) {
         this.selectedDevice = selectedDevice;
     }
+
+    public String getSelectedType() {
+        return selectedType;
+    }
+
+    public void setSelectedType(String selectedType) {
+        this.selectedType = selectedType;
+    }
+    
     public String editDevices(Devices device) {
         this.deviceSessionBean.setSelectedDevices(device);
         return "user-form.xhtml?faces-redirect=true";
@@ -52,9 +62,9 @@ public class DevicesBean implements Serializable{
     public void saveDevice() {
         // Lógica para guardar o actualizar un dispositivo
         if (selectedDevice.getId() == null || selectedDevice.getId().isEmpty()) {
-            devicesDao.createDevices(selectedDevice);
+            devicesDao.createDevices(selectedDevice, selectedType);
         } else {
-            devicesDao.updateDevice(selectedDevice);
+            devicesDao.updateDevice(selectedDevice, selectedType);
         }
 
         // Recargar la lista de dispositivos después de guardar o actualizar
