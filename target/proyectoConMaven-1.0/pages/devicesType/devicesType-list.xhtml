@@ -15,41 +15,43 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 </h:head>
 
 <h:body>
-    <h:form id="deviceTypeForm">
+    <h:form class="p-5">
 
-        <!-- Recurso del diálogo de confirmación -->
-        <p:remoteCommand name="confirmDialog" update="confirmationDialog" />
-
-        <!-- Mostrar la tabla de tipos de dispositivos -->
+            <p:confirmDialog global="true">
+                <p:commandButton value="Si" type="button"
+                                 styleClass="ui-confirmdialog-yes ui-button-danger" icon="pi pi-check" />
+                <p:commandButton value="No" type="button"
+                                 styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+            </p:confirmDialog>   
+            <div class="flex flex-row justify-content-end mb-3">
+                <p:commandButton value="Crear Nuevo" action="/pages/user/devicesType-form.xhtml?faces-redirect=true"></p:commandButton>
+            </div>
+        
         <p:dataTable id="deviceTypeTable" value="#{deviceTypeBean.deviceTypes}" var="deviceType">
 
-            <!-- Definir las columnas de la tabla -->
-            <p:column headerText="ID">
-                <h:outputText value="#{deviceType.id}" />
-            </p:column>
-            <p:column headerText="Nombre del Tipo">
+            <p:column headerText="Nombre del tipo de equipo">
                 <h:outputText value="#{deviceType.typeName}" />
             </p:column>
-            <p:column headerText="Descripción del Tipo">
+            <p:column headerText="Descripción del tipo de equipo">
                 <h:outputText value="#{deviceType.typeDescription}" />
             </p:column>
-
-            <!-- Agregar un botón para el soft delete -->
-            <p:column>
-                <p:commandButton value="Eliminar" oncomplete="confirmDialog()" />
+            
+            <p:column headerText="Estado">
+                    <h:outputText value="Activo"  rendered="#{deviceType.isActive == true}" />
+                    <h:outputText value="Inactivo" rendered="#{deviceType.isActive == false}" />
             </p:column>
 
+            <p:column headerText="Acciones">
+                    <div class="flex flex-row justify-content-between w-12rem">
+                        <p:commandButton value="Editar" action="#{deviceTypeBean.editDeviceType(deviceType)}" styleClass="ui-button-secondary"/>
+                        <p:commandButton value="Eliminar" actionListener="#{deviceTypeBean.deleteSoftDeviceType(deviceType.id)}" styleClass="ui-button-danger">
+                            <p:confirm header="Confirmacion"
+                                       message="¿Está seguro de eliminar este tipo de equipo?"
+                                       icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </div>
+            </p:column>
         </p:dataTable>
-
-        <!-- Diálogo de confirmación para el soft delete -->
-        <p:confirmDialog id="confirmationDialog" message="¿Estás seguro de que quieres eliminar este tipo de dispositivo?"
-                         header="Confirmar Eliminación" severity="alert" widgetVar="confirmationVar">
-
-            <p:commandButton value="Sí" oncomplete="confirmationVar.hide()" action="#{deviceTypeBean.softDeleteDeviceType}" update="deviceTypeTable"/>
-            <p:commandButton value="No" oncomplete="confirmationVar.hide()"/>
-
-        </p:confirmDialog>
-
     </h:form>
 </h:body>
 
