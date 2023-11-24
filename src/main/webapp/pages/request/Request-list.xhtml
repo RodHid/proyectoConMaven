@@ -24,17 +24,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
             <p:dataTable var="requestTable" value="#{requestBean.requestList}" >
                 <!-- Definir las columnas de la tabla -->
                 <p:column headerText="ID">
-                    <h:outputText value="#{requestTable.id}" />
+                    <h:outputText value="#{request.id}" />
                 </p:column>
                 <p:column headerText="Solicitado por">
-                    <h:outputText value="#{requestTable.requestedBy}" />
+                    <h:outputText value="#{request.requestedBy}" />
                 </p:column>
                 <p:column headerText="Fecha de Préstamo">
-                    <h:outputText value="#{requestTable.loanDate}" />
+                    <h:outputText value="#{request.loanDate}" />
                 </p:column>
                 <p:column headerText="Aceptado por">
-                    <h:outputText value="#{requestTable.acceptedBy}" />
+                    <h:outputText value="#{request.acceptedBy}" />
                 </p:column>
+     
                 <p:column headerText="Acciones">
                     <div class="flex flex-row justify-content-between w-12rem">
 <!--   <p:commandButton value="Editar" action="" styleClass="ui-button-secondary"/>-->

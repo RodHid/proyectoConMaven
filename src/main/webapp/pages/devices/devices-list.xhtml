@@ -11,7 +11,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
-        <h:form id="devicesForm" class="p-5">
+        <h:form class="p-5">
             <p:confirmDialog global="true">
                 <p:commandButton value="Si" type="button"
                                  styleClass="ui-confirmdialog-yes ui-button-danger" icon="pi pi-check" />
@@ -22,10 +22,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                 <p:commandButton value="Crear Nuevo" action="/pages/devices/devices-form.xhtml?faces-redirect=true"></p:commandButton>
             </div>
             <p:dataTable var="device" value="#{devicesListBean.devicesList}" >
-                <!-- Definir las columnas de la tabla -->
-            <p:column headerText="ID">
-                <h:outputText value="#{device.id}" />
-            </p:column>
             <p:column headerText="Nombre del Dispositivo">
                 <h:outputText value="#{device.deviceName}" />
             </p:column>
@@ -38,11 +34,16 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
             <p:column headerText="Tipo de Dispositivo">
                 <h:outputText value="#{device.deviceType}" />
             </p:column>
+            <p:column headerText="Estado">
+                    <h:outputText value="Activo"  rendered="#{device.isActive == true}" />
+                    <h:outputText value="Inactivo" rendered="#{device.isActive == false}" />
+             </p:column>
                 <p:column headerText="Acciones">
                     <div class="flex flex-row justify-content-between w-12rem">
-                        <p:commandButton value="Eliminar" actionListener="#{devicesListBean.deleteSoftDevice(deviceId)}" styleClass="ui-button-danger">
+                        <p:commandButton value="Editar" action="#{devicesBean.editeDevice(device)}" styleClass="ui-button-secondary"/>
+                        <p:commandButton value="Eliminar" actionListener="#{devicesBean.deleteSoftDevice(device.id)}" styleClass="ui-button-danger">
                             <p:confirm header="Confirmacion"
-                                       message="¿Está seguro de eliminar este usuario?"
+                                       message="¿Está seguro de eliminar este equipo?"
                                        icon="pi pi-exclamation-triangle" />
                         </p:commandButton>
                     </div>
