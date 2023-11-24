@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/pages/PageTemplate.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <p:card class="m-5">
+            <f:facet name="header">
+                <h1 class="py-5 px-6 m-0">Formulario de Usuarios</h1>
+            </f:facet>
+            <h:form class="px-5">
+                <div class="formgrid grid gap-5">
+                    <div class="field col-5">
+                        <h:outputLabel for="username" value="Nombre de usuario" />
+                        <p:inputText id="username" value="#{usersFormBean.selectedUser.username}" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                    </div>
+                    <div class="field col-5">
+                        <h:outputLabel for="password" value="Password" />
+                        <p:password id="password" value="#{usersFormBean.selectedUser.userPassword}" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                        <small id="username-help">Dejar vacio si no la quiere editar.</small>
+                    </div>
+                    <div class="field col-5">
+                        <h:outputLabel for="givenName" value="Nombres" />
+                        <p:inputText id="givenName" value="#{usersFormBean.selectedUser.givenName}" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                    </div>
+                    <div class="field col-5">
+                        <h:outputLabel for="familyName" value="Apellido" />
+                        <p:inputText id="familyName" value="#{usersFormBean.selectedUser.familyName}" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                    </div>
+                    <!--                    <div class="field col-4">
+                                            <h:outputLabel for="roles" value="Rol de Usuario" />
+                                            <p:selectOneMenu id="roles" value="#{usersFormBean.selectedUser.roles}" class="w-full text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary" style="appearance: auto">
+                                                <f:selectItems value="#{usersFormBean.allRoles}" var="role" itemLabel="#{role.name}" itemValue="#{role}" />
+                                            </p:selectOneMenu>
+                                        </div>-->
+                    <div class="field col-4">
+                        <h:outputLabel for="roles" value="Rol de Usuario" />
+                        <p:selectOneMenu id="roles" value="#{usersFormBean.roleSelected}" class="w-full text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round outline-none focus:border-primary" style="appearance: auto">
+                            <f:selectItems value="#{usersFormBean.allRoles}" var="role" itemLabel="#{role.name}" itemValue="#{role.id}" />
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="field col-12">
+                        <p:commandButton value="Guardar" action="#{usersFormBean.saveUser()}" />
+                    </div>
+                </div>
+            </h:form>
+        </p:card>
+    </ui:define>
+</ui:composition>
+

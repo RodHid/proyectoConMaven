@@ -7,7 +7,6 @@
     <h:head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <h:outputStylesheet library="primefaces" name="themes/bootstrap/theme.css" />
         <h:outputStylesheet library="webjars" name="primeflex/3.0.1/primeflex.min.css" />
         <h:outputStylesheet library="styles" name="login.css" />
         <title>Login Page</title>
@@ -24,18 +23,15 @@
                         <div class="ui-fluid">
                             <div class="field">
                                 <p:outputLabel for="username" value="Username" />
-                                <p:inputText id="username" />
+                                <p:inputText id="username" value="#{loginBean.username}" styleClass="form-control" required="true"/>
                             </div>
                             <div class="field">
                                 <p:outputLabel for="password" value="Password" />
-                                <p:password id="password" required="true" styleClass="form-control" />
+                                <p:password id="password" value="#{loginBean.password}" styleClass="form-control" required="true"/>
                             </div>
                         </div>
-                        <div class="flex flex-row justify-content-between">
-                            <p:commandButton value="Entrar" />
-                            <p:linkButton  value="Registrar" styleClass="ui-button-secondary" href="registration.xhtml">
-                            </p:linkButton>
-                        </div>
+                        <p:commandButton value="Ingresar" action="#{loginBean.validateLogin()}" ajax="false"/>
+                        <p:growl id="growl" showDetail="true" />
                     </h:form>
                 </p:card>
             </div>
