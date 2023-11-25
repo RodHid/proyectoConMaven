@@ -27,4 +27,20 @@
         <res-auth>Container</res-auth>
         <res-sharing-scope>Shareable</res-sharing-scope>
     </resource-ref>
+    <mime-mapping>
+        <extension>eot</extension>
+        <mime-type>application/vnd.ms-fontobject</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff</extension>
+        <mime-type>font/woff</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>ttf</extension>
+        <mime-type>application/x-font-ttf</mime-type>
+    </mime-mapping>
+    <mime-mapping>
+        <extension>woff2</extension>
+        <mime-type>font/woff2</mime-type>
+    </mime-mapping>
 </web-app>

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.beans;
+package com.beans.requests;
 
 import com.connection.DatabaseConnection;
 import com.dao.RequestDao;
@@ -17,17 +17,15 @@ import java.util.List;
  *
  * @author Usuario
  */
-@Named(value = "requestBean")
+@Named(value = "requestListBean")
 @RequestScoped
-public class RequestBean {
+public class RequestListBean {
    
-
-
     private RequestDao requestDao;
     private List<Request> requestList;
     private Request selectedRequest;
 
-    public RequestBean() {
+    public RequestListBean() {
         this.requestDao = new RequestDao(new DatabaseConnection());
         this.requestList = requestDao.getAllRequests();
         this.selectedRequest = new Request();

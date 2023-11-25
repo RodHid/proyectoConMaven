@@ -1,11 +1,10 @@
-package com.beans;
+package com.beans.user;
 
 import com.connection.DatabaseConnection;
 import com.dao.RolesDao;
 import com.dao.UsersDao;
 import com.persistence.entities.Roles;
 import com.persistence.entities.Users;
-import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -34,7 +33,7 @@ public class UsersFormBean implements Serializable {
     private String selectedRole;
 
     @Inject
-    private UserSessionBean sessionBean;
+    private UserSessionBean userSessionBean;
 
     public UsersFormBean() {
         this.connection = new DatabaseConnection();
@@ -54,7 +53,7 @@ public class UsersFormBean implements Serializable {
     }
 
     public Users getSelectedUser() {
-        return (this.sessionBean.getSelectedUser() != null) ? this.sessionBean.getSelectedUser() : selectedUser;
+        return (this.userSessionBean.getSelectedUser() != null) ? this.userSessionBean.getSelectedUser() : selectedUser;
     }
 
     public void setSelectedUser(Users selectedUser) {
@@ -72,7 +71,7 @@ public class UsersFormBean implements Serializable {
     // Método para guardar o actualizar un usuario
     public String saveUser() {
         // Get Logged User from session
-        this.loggedUser = this.sessionBean.getActiveUser();
+        this.loggedUser = this.userSessionBean.getActiveUser();
         // Encriptar la contraseña con MD5 antes de guardar o actualizar
         selectedUser.setUserPassword(encryptSHA256(selectedUser.getUserPassword()));
         // Determinar si se debe crear un nuevo usuario o actualizar uno existente

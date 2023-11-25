@@ -24,10 +24,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                                  styleClass="ui-confirmdialog-no" icon="pi pi-times" />
             </p:confirmDialog>   
             <div class="flex flex-row justify-content-end mb-3">
-                <p:commandButton value="Crear Nuevo" action="/pages/user/devicesType-form.xhtml?faces-redirect=true"></p:commandButton>
+                <p:commandButton value="Crear Nuevo" action="/pages/devicesType/type-form.xhtml?faces-redirect=true"></p:commandButton>
             </div>
         
-        <p:dataTable id="deviceTypeTable" value="#{deviceTypeBean.deviceTypes}" var="deviceType">
+        <p:dataTable id="deviceTypeTable" value="#{typesListBean.deviceTypes}" var="deviceType">
 
             <p:column headerText="Nombre del tipo de equipo">
                 <h:outputText value="#{deviceType.typeName}" />
@@ -43,8 +43,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
             <p:column headerText="Acciones">
                     <div class="flex flex-row justify-content-between w-12rem">
-                        <p:commandButton value="Editar" action="#{deviceTypeBean.editDeviceType(deviceType)}" styleClass="ui-button-secondary"/>
-                        <p:commandButton value="Eliminar" actionListener="#{deviceTypeBean.deleteSoftDeviceType(deviceType.id)}" styleClass="ui-button-danger">
+                        <p:commandButton value="Editar" action="#{typesListBean.editDeviceType(deviceType)}" styleClass="ui-button-secondary"/>
+                        <p:commandButton value="Eliminar" actionListener="#{typesListBean.deleteSoftDeviceType(deviceType.id)}" styleClass="ui-button-danger">
                             <p:confirm header="Confirmacion"
                                        message="¿Está seguro de eliminar este tipo de equipo?"
                                        icon="pi pi-exclamation-triangle" />

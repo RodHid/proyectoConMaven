@@ -2,10 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.beans;
+package com.beans.deviceTypes;
 import com.connection.DatabaseConnection;
 import com.dao.DeviceTypeDao;
 import com.persistence.entities.DeviceTypes;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 import java.util.List;
 
@@ -14,13 +17,17 @@ import java.util.List;
  *
  * @author Usuario
  */
-public class DeviceTypeBean {
+@Named(value = "typesListBean")
+@RequestScoped
+public class TypesListBean {
     
     private DeviceTypeDao deviceTypeDao;
     private List<DeviceTypes> deviceTypesList;
     private DeviceTypes selectedDeviceType;
+    
+    @Inject TypesSessionBean typesSessionBean;
 
-    public DeviceTypeBean() {
+    public TypesListBean() {
         this.deviceTypeDao = new DeviceTypeDao(new DatabaseConnection());
         this.deviceTypesList = deviceTypeDao.getAllDeviceTypes();
         this.selectedDeviceType = new DeviceTypes();
@@ -54,6 +61,11 @@ public class DeviceTypeBean {
 
         // Limpiar el DeviceType seleccionado
         selectedDeviceType = new DeviceTypes();
+    }
+    
+    public String editUser(DeviceTypes type) {
+        this.typesSessionBean.setSelectedType(type);
+        return "type-form.xhtml?faces-redirect=true";
     }
 
     // Método para eliminar suavemente un DeviceType

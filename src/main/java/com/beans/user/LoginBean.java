@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSF/JSFManagedBean.java to edit this template
  */
-package com.beans;
+package com.beans.user;
 
 import com.connection.DatabaseConnection;
 import com.dao.RolesDao;
@@ -49,9 +49,7 @@ public class LoginBean implements Serializable {
         if (user != null && validatePassword(user.getUserPassword(), password)) {
             List<UserRoles> userRoles = userRolesDao.getUserRolesByUserId(user.getId());
             String roleId = userRoles.get(0).getRoleId();
-            System.out.println("ROLEID"+roleId);
             Roles role = roleDao.getRolesById(roleId);
-            System.out.println("ROLE"+role);
             // Crear la variable de sesión 'activeUser'
             Users activeUser = new Users(user.getId(), user.getUsername(), user.getGivenName(), user.getFamilyName());
             HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);

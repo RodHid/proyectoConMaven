@@ -1,4 +1,4 @@
-package com.beans;
+package com.beans.user;
 
 import com.persistence.entities.Roles;
 import com.persistence.entities.Users;
@@ -17,7 +17,7 @@ import java.io.Serializable;
  * @author Rodrigo Hidalgo
  */
 
-@Named(value = "sessionBean")
+@Named(value = "userSessionBean")
 @SessionScoped
 public class UserSessionBean implements Serializable {
     

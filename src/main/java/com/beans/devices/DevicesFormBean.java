@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.beans;
+package com.beans.devices;
 import com.connection.DatabaseConnection;
 import com.dao.DeviceTypeDao;
 import com.dao.DevicesDao;

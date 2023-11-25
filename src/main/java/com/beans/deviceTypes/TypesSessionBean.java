@@ -1,5 +1,6 @@
-package com.beans;
+package com.beans.deviceTypes;
 
+import com.persistence.entities.DeviceTypes;
 import com.persistence.entities.Roles;
 import com.persistence.entities.Users;
 import jakarta.enterprise.context.SessionScoped;
@@ -17,44 +18,19 @@ import java.io.Serializable;
  * @author Rodrigo Hidalgo
  */
 
-@Named(value = "sessionBean")
+@Named(value = "typesSessionBean")
 @SessionScoped
-public class UserSessionBean implements Serializable {
+public class TypesSessionBean implements Serializable {
     
-    private Users selectedUser;
-    private Roles activeUser;
-    private String userRole;
+    private DeviceTypes selectedType;
+
+    public DeviceTypes getSelectedType() {
+        return selectedType;
+    }
+
+    public void setSelectedType(DeviceTypes selectedType) {
+        this.selectedType = selectedType;
+    }
+
     
-
-    public Users getSelectedUser() {
-        return selectedUser;
-    }
-
-    public void setSelectedUser(Users selectedUser) {
-        this.selectedUser = selectedUser;
-    }
-
-    public void setUserRole(String userRole) {
-        this.userRole = userRole;
-    }
-
-    public Users getActiveUser() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-        HttpSession session = (HttpSession) externalContext.getSession(false);
-        if (session.getAttribute("activeUser") != null) {
-           return (Users) session.getAttribute("activeUser");
-        }
-        return null;
-    }
-    
-    public String getUserRole() {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-        HttpSession session = (HttpSession) externalContext.getSession(false);
-        if (session.getAttribute("userRole") != null) {
-           return (String) session.getAttribute("userRole");
-        }
-        return null;
-    }
 }

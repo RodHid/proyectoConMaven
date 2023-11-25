@@ -1,4 +1,4 @@
-package com.beans;
+package com.beans.user;
 
 import com.connection.DatabaseConnection;
 import com.dao.UsersDao;
