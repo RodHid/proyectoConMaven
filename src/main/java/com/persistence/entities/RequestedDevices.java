@@ -22,8 +22,8 @@ public class RequestedDevices {
     private Date createdAt;
     private Date updatedAt;
     private Date deletedAt;
-    private Devices devicesId;
-    private Request requestId;
+    private String devicesId;
+    private String requestId;
 
     public RequestedDevices() {
     }
@@ -78,19 +78,19 @@ public class RequestedDevices {
         this.deletedAt = deletedAt;
     }
 
-    public Devices getDevicesId() {
+    public String getDevicesId() {
         return devicesId;
     }
 
-    public void setDevicesId(Devices devicesId) {
+    public void setDevicesId(String devicesId) {
         this.devicesId = devicesId;
     }
 
-    public Request getRequestId() {
+    public String getRequestId() {
         return requestId;
     }
 
-    public void setRequestId(Request requestId) {
+    public void setRequestId(String requestId) {
         this.requestId = requestId;
     }
 }
