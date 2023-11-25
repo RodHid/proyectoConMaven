@@ -12,6 +12,7 @@ import jakarta.inject.Named;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -24,19 +25,37 @@ public class RequestListBean {
     private RequestDao requestDao;
     private List<Request> requestList;
     private Request selectedRequest;
+    private String searchTerm;//agregué esto-->
+private List<Request> filteredRequestList;//agregué esto-->
 
     public RequestListBean() {
         this.requestDao = new RequestDao(new DatabaseConnection());
         this.requestList = requestDao.getAllRequests();
         this.selectedRequest = new Request();
     }
+    public void searchUsers() {//agregue esto
+    // Filtrar la lista de usuarios según el término de búsqueda
+    filteredRequestList = requestList.stream()
+            .filter(request -> request.getId().toLowerCase().contains(searchTerm.toLowerCase()))
+            .collect(Collectors.toList());
+}
+public List<Request> getRequestList() {//agregue esto
+        if (requestList == null) {
+            loadRequestList();
+        }
+        return requestList;
+    }
+private void loadRequestList() {
+      if (searchTerm == null || searchTerm.isEmpty()) {
+        requestList = requestDao.getAllRequests();
+    } else {
+        searchUsers();
+                }
+    }
 
     // Métodos de acceso a datos y propiedades
 
-    public List<Request> getRequestList() {
-        return requestList;
-    }
-
+   
     public Request getSelectedRequest() {
         return selectedRequest;
     }

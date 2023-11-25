@@ -10,6 +10,7 @@ import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Named;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -24,18 +25,37 @@ public class DevicesListBean {
     private DevicesDao devicesDao;
     private List<Devices> devicesList;
     private Devices selectedDevice;
+    private String searchTerm;//agregué esto-->
+private List<Devices> filteredDevicesList;//agregué esto-->
 
     public DevicesListBean() {
         this.devicesDao = new DevicesDao(new DatabaseConnection());
         this.devicesList = devicesDao.getAllDevices();
         this.selectedDevice = new Devices();
     }
+    public void searchDevices() {//agregue esto
+    // Filtrar la lista de usuarios según el término de búsqueda
+    filteredDevicesList = devicesList.stream()
+            .filter(user -> user.getDeviceName().toLowerCase().contains(searchTerm.toLowerCase()))
+            .collect(Collectors.toList());
+}
+    public List<Devices> getDevicesList() {//agregue esto
+        if (devicesList == null) {
+            loadDevicesList();
+        }
+        return devicesList;
+    }
+     private void loadDevicesList() {
+      if (searchTerm == null || searchTerm.isEmpty()) {
+        devicesList = devicesDao.getAllDevices();
+    } else {
+        searchDevices();
+                }
+    }
 
     // Métodos de acceso a datos y propiedades
 
-    public List<Devices> getDevicesList() {
-        return devicesList;
-    }
+    
 
     public Devices getSelectedDevice() {
         return selectedDevice;

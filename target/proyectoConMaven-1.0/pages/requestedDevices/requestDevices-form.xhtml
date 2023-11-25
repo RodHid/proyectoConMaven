@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/pages/PageTemplate.xhtml">
+
+    <ui:define name="content">
+        <p:card class="m-5">
+            <f:facet name="header">
+                <h1 class="py-5 px-6 m-0">Formulario de Dispositivos Solicitados</h1>
+            </f:facet>
+            <h:form class="px-5">
+                <div class="formgrid grid gap-5">
+                    <div class="field col-5">
+                        <h:outputLabel for="id" value="ID" />
+                        <p:inputText id="id" value="#{requestedDevicesFormBean.id}" type="text" />
+                    </div>
+                    <div class="field col-5">
+                        <h:outputLabel for="requestId" value="ID de Solicitud" />
+                        <p:inputText id="requestId" value="#{requestedDevicesFormBean.requestId}" type="text" />
+                    </div>
+                    <div class="field col-5">
+                        <h:outputLabel for="devicesId" value="ID de Dispositivos" />
+                        <p:inputText id="devicesId" value="#{requestedDevicesFormBean.devicesId}" type="text" />
+                    </div>
+                    <div class="field col-5">
+                        <h:outputLabel for="loanReason" value="Motivo de Préstamo" />
+                        <p:inputTextarea id="loanReason" value="#{requestedDevicesFormBean.loanReason}" />
+                    </div>
+                    <div class="field col-12">
+                        <p:commandButton value="Guardar" action="#{requestedDevicesFormBean.saveRequestedDevice()}" />
+                    </div>
+                </div>
+            </h:form>
+        </p:card>
+    </ui:define>
+</ui:composition>
+
+</html>

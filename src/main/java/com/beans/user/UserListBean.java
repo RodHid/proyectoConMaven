@@ -8,6 +8,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName UserListBean
@@ -23,6 +24,8 @@ public class UserListBean implements Serializable {
 
     private List<Users> userList;
     private UsersDao usersDao;
+    private String searchTerm;//agregué esto-->
+private List<Users> filteredUserList;//agregué esto-->
 
     @Inject
     UserSessionBean userSessionBean;
@@ -31,10 +34,16 @@ public class UserListBean implements Serializable {
         this.usersDao = new UsersDao(new DatabaseConnection());
         this.userList = this.usersDao.getAllUsers();
     }
+    public void searchUsers() {//agregue esto
+    // Filtrar la lista de usuarios según el término de búsqueda
+    filteredUserList = userList.stream()
+            .filter(user -> user.getUsername().toLowerCase().contains(searchTerm.toLowerCase()))
+            .collect(Collectors.toList());
+}
     
     
 
-    public List<Users> getUserList() {
+    public List<Users> getUserList() {//agregue esto
         if (userList == null) {
             loadUserList();
         }
@@ -42,7 +51,11 @@ public class UserListBean implements Serializable {
     }
 
     private void loadUserList() {
+      if (searchTerm == null || searchTerm.isEmpty()) {
         userList = usersDao.getAllUsers();
+    } else {
+        searchUsers();
+                }
     }
 
     public String editUser(Users user) {

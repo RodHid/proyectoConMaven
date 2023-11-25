@@ -1,4 +1,5 @@
 com\beans\devices\DeviceSessionBean.class
+com\beans\userRoles\UserRolesBean.class
 com\beans\devices\DevicesBean.class
 com\beans\deviceTypes\TypesSessionBean.class
 com\itca\conexion\conexion.class
@@ -17,10 +18,15 @@ com\beans\roles\roleSessionBean.class
 com\persistence\entities\UserRoles.class
 com\persistence\entities\Devices.class
 com\persistence\entities\DeviceTypes.class
+com\beans\user\LoginBean.class
 com\beans\user\UserSessionBean.class
+com\config\JakartaRestConfiguration.class
 com\persistence\entities\Roles.class
 com\connection\DatabaseConnection.class
+com\dao\UserRolesDao.class
+com\beans\requests\RequestListBean.class
 com\beans\requests\RequestFormBean.class
+com\beans\user\UserListBean.class
 com\dao\DevicesDao.class
 com\beans\devices\DevicesListBean.class
 com\sessions\SessionFilter.class
