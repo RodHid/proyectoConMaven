@@ -11,6 +11,7 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -24,6 +25,9 @@ public class TypesListBean {
     private DeviceTypeDao deviceTypeDao;
     private List<DeviceTypes> deviceTypesList;
     private DeviceTypes selectedDeviceType;
+     private String searchTerm;//agregué esto-->
+private List<DeviceTypes> filteredDeviceTypesList;//agregué esto-->
+
     
     @Inject TypesSessionBean typesSessionBean;
 
@@ -32,13 +36,29 @@ public class TypesListBean {
         this.deviceTypesList = deviceTypeDao.getAllDeviceTypes();
         this.selectedDeviceType = new DeviceTypes();
     }
+    public void searchDevicesTypes() {//agregue esto
+    // Filtrar la lista de usuarios según el término de búsqueda
+    filteredDeviceTypesList = deviceTypesList.stream()
+            .filter(user -> user.getTypeName().toLowerCase().contains(searchTerm.toLowerCase()))
+            .collect(Collectors.toList());
+    }
+    public List<DeviceTypes> getDeviceTypesList() {//agregue esto
+        if (deviceTypesList == null) {
+            loadDeviceTypesList();
+        }
+        return deviceTypesList;
+    }
+    private void loadDeviceTypesList() {
+      if (searchTerm == null || searchTerm.isEmpty()) {
+        deviceTypesList = deviceTypeDao.getAllDeviceTypes();
+    } else {
+        searchDevicesTypes();
+                }
+    }
 
     // Métodos de acceso a datos y propiedades
 
-    public List<DeviceTypes> getDeviceTypesList() {
-        return deviceTypesList;
-    }
-
+   
     public DeviceTypes getSelectedDeviceType() {
         return selectedDeviceType;
     }

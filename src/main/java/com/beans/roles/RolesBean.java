@@ -9,6 +9,7 @@ import com.dao.RolesDao;
 import com.persistence.entities.Roles;
 import jakarta.inject.Inject;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -21,6 +22,8 @@ public class RolesBean {
     private RolesDao rolesDao;
     private List<Roles> rolesList;
     private Roles selectedRole;
+    private String searchTerm;//agregué esto-->
+private List<Roles> filteredRolesList;//agregué esto-->
 
       @Inject
     roleSessionBean roleSessionBean;
@@ -33,7 +36,23 @@ public class RolesBean {
     // Métodos de acceso a datos y propiedades
 
     public List<Roles> getRolesList() {
+       if (rolesList == null) {
+            loadRolesList();
+        }
         return rolesList;
+    }
+    private void loadRolesList() {
+      if (searchTerm == null || searchTerm.isEmpty()) {
+        rolesList = rolesDao.getAllRoles();
+    } else {
+        searchRoles();
+                }
+    }
+    public void searchRoles() {//agregue esto
+    // Filtrar la lista de usuarios según el término de búsqueda
+    filteredRolesList = rolesList.stream()
+            .filter(roles -> roles.getName().toLowerCase().contains(searchTerm.toLowerCase()))
+            .collect(Collectors.toList());
     }
 
     public Roles getSelectedRole() {

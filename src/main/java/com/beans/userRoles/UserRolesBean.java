@@ -10,6 +10,7 @@ import com.persistence.entities.UserRoles;
 import jakarta.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -20,6 +21,8 @@ public class UserRolesBean implements Serializable {
 
     private UserRolesDao userRolesDao;
     private List<UserRoles> userRolesList;
+    private String searchTerm;//agregué esto-->
+private List<UserRoles> filteredUserRolesList;//agregué esto-->
      @Inject
     UserRolesSessionBean userRolesSessionBean;
    
@@ -27,8 +30,15 @@ public class UserRolesBean implements Serializable {
     public UserRolesBean() {
         this.userRolesDao = new UserRolesDao(new DatabaseConnection());
         this.userRolesList = userRolesDao.getAllUserRoles();
+    }
        
-    }    
+         public void searchUserRoles() {//agregue esto
+    // Filtrar la lista de usuarios según el término de búsqueda
+    filteredUserRolesList = userRolesList.stream()
+            .filter(user -> user.getId().toLowerCase().contains(searchTerm.toLowerCase()))
+            .collect(Collectors.toList());
+}
+     
    
 
     public List<UserRoles> getUserRolesList() {

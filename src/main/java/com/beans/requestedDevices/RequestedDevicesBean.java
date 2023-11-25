@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 /**
  *
  * @author Usuario
@@ -24,16 +25,38 @@ public class RequestedDevicesBean {
     private RequestedDevicesDao requestedDevicesDao;
     private List<RequestedDevices> requestedDevicesList;
     private RequestedDevices selectedRequestedDevices;
+     private String searchTerm;//agregué esto-->
+private List<RequestedDevices> filteredRequestedDevicesList;//agregué esto-->
 
     public RequestedDevicesBean() {
         this.requestedDevicesDao = new RequestedDevicesDao(new DatabaseConnection());
         this.requestedDevicesList = requestedDevicesDao.getAllRequestedDevices();
         this.selectedRequestedDevices = new RequestedDevices();
     }
+      public void searchRequestedDevices() {//agregue esto
+    // Filtrar la lista de usuarios según el término de búsqueda
+    filteredRequestedDevicesList = requestedDevicesList.stream()
+            .filter(requestedDevices -> requestedDevices.getId().toLowerCase().contains(searchTerm.toLowerCase()))
+            .collect(Collectors.toList());
+}
+    
+
+    private void loadRequestedDevicesList() {
+      if (searchTerm == null || searchTerm.isEmpty()) {
+        requestedDevicesList = requestedDevicesDao.getAllRequestedDevices();
+    } else {
+        searchRequestedDevices();
+                }
+    }
 
     // Métodos de acceso a datos y propiedades
 
     public List<RequestedDevices> getRequestedDevicesList() {
+        
+        if (requestedDevicesList != null) {
+        } else {
+            loadRequestedDevicesList();
+        }
         return requestedDevicesList;
     }
 
