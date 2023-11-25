@@ -7,39 +7,49 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/pages/PageTemplate.xhtml">
+    <ui:composition template="/pages/PageTemplate.xhtml">
 
-    <ui:define name="content">
-        <p:card class="m-5">
-            <f:facet name="header">
-                <h1 class="py-5 px-6 m-0">Formulario de Solicitud</h1>
-            </f:facet>
-            <h:form class="px-5">
-                <div class="formgrid grid gap-5">
-                    <div class="field col-5">
-                        <h:outputLabel for="id" value="ID" />
-                        <p:inputText id="id" value="#{requestFormBean.id}" type="text" />
-                    </div>
-                    <div class="field col-5">
-                        <h:outputLabel for="requestedBy" value="Solicitado por" />
-                        <p:inputText id="requestedBy" value="#{requestFormBean.requestedBy}" type="text" />
-                    </div>
-                    <div class="field col-5">
-                        <h:outputLabel for="loanDate" value="Fecha de préstamo" />
-                        <p:calendar id="loanDate" value="#{requestFormBean.loanDate}" />
-                    </div>
-                    <div class="field col-5">
-                        <h:outputLabel for="acceptedBy" value="Aceptado por" />
-                        <p:inputText id="acceptedBy" value="#{requestFormBean.acceptedBy}" type="text" />
-                    </div>
-                    <div class="field col-12">
-                        <p:commandButton value="Guardar" action="#{requestFormBean.saveRequest()}" />
-                    </div>
-                </div>
-            </h:form>
-        </p:card>
-    </ui:define>
-</ui:composition>
+        <ui:define name="content">
+            <p:card class="m-5">
+                <f:facet name="header">
+                    <h1 class="py-5 px-6 m-0">Formulario de Solicitud</h1>
+                </f:facet>
+                <h:form id="RequestForm">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel value="Requested By:"/>
+                        <p:inputText value="#{requestFormBean.request.requestedBy}" required="true"/>
+
+                        <p:outputLabel value="Loan Date:"/>
+                        <p:inputText value="#{requestFormBean.request.loanDate}" required="true"/>
+
+                        <p:outputLabel value="Accepted By:"/>
+                        <p:inputText value="#{requestFormBean.request.acceptedBy}" required="true"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="3">
+                        <p:outputLabel value="Device ID:"/>
+                        <p:inputText value="#{requestFormBean.requestedDevices.devicesId}" required="true"/>
+
+                        <p:outputLabel value="Loan Reason:"/>
+                        <p:inputText value="#{requestFormBean.requestedDevices.loanReason}" required="true"/>
+
+                        <p:commandButton value="Add Device" action="#{requestFormBean.addRequestedDevices}" update="deviceTable"/>
+
+                        <p:dataTable id="deviceTable" value="#{requestFormBean.requestedDevicesList}" var="device">
+                            <p:column headerText="Device ID">
+                                <h:outputText value="#{device.devicesId}"/>
+                            </p:column>
+                            <p:column headerText="Loan Reason">
+                                <h:outputText value="#{device.loanReason}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+
+                    <p:commandButton value="Save Request" action="#{requestFormBean.saveRequest}" update="deviceTable"/>
+                </h:form>
+            </p:card>
+        </ui:define>
+    </ui:composition>
 
 </html>
 

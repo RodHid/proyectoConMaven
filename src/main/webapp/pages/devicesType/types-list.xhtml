@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Tabla de Tipos de Dispositivos</title>
+    <h:outputStylesheet library="primefaces" name="jquery/ui/jquery-ui.css" />
+</h:head>
+
+<h:body>
+    <h:form class="p-5">
+
+            <p:confirmDialog global="true">
+                <p:commandButton value="Si" type="button"
+                                 styleClass="ui-confirmdialog-yes ui-button-danger" icon="pi pi-check" />
+                <p:commandButton value="No" type="button"
+                                 styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+            </p:confirmDialog>   
+            <div class="flex flex-row justify-content-end mb-3">
+                <p:commandButton value="Crear Nuevo" action="/pages/devicesType/type-form.xhtml?faces-redirect=true"></p:commandButton>
+            </div>
+        
+        <p:dataTable id="deviceTypeTable" value="#{typesListBean.deviceTypes}" var="deviceType">
+
+            <p:column headerText="Nombre del tipo de equipo">
+                <h:outputText value="#{deviceType.typeName}" />
+            </p:column>
+            <p:column headerText="Descripción del tipo de equipo">
+                <h:outputText value="#{deviceType.typeDescription}" />
+            </p:column>
+            
+            <p:column headerText="Estado">
+                    <h:outputText value="Activo"  rendered="#{deviceType.isActive == true}" />
+                    <h:outputText value="Inactivo" rendered="#{deviceType.isActive == false}" />
+            </p:column>
+
+            <p:column headerText="Acciones">
+                    <div class="flex flex-row justify-content-between w-12rem">
+                        <p:commandButton value="Editar" action="#{typesListBean.editDeviceType(deviceType)}" styleClass="ui-button-secondary"/>
+                        <p:commandButton value="Eliminar" actionListener="#{typesListBean.deleteSoftDeviceType(deviceType.id)}" styleClass="ui-button-danger">
+                            <p:confirm header="Confirmacion"
+                                       message="¿Está seguro de eliminar este tipo de equipo?"
+                                       icon="pi pi-exclamation-triangle" />
+                        </p:commandButton>
+                    </div>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:body>
+
+</html>
+

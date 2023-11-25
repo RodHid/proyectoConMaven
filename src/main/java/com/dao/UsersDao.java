@@ -56,7 +56,6 @@ public class UsersDao {
                 createUserRoleStatement.executeUpdate();
 
                 connection.commit();
-                System.out.println("GUARDADO");
             } catch (SQLException e) {
                 connection.rollback();
                 throw e;
