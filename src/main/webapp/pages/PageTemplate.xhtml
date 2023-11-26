@@ -18,10 +18,10 @@
         <div id="top" class="mb-5">
             <h:form id="menu">
                 <p:menubar>
-                    <p:menuitem value="Usuarios" action="/pages/user/users-list.xhtml?faces-redirect=true" rendered="#{sessionBean.userRole == 'admin' ? true : false}" />
+                    <p:menuitem value="Usuarios" action="/pages/user/users-list.xhtml?faces-redirect=true" rendered="#{userSessionBean.userRole == 'admin' ? true : false}" />
                     <p:menuitem value="Solicitudes" action="/pages/request/request-list.xhtml?faces-redirect=true" />
                     <p:menuitem value="Dispositivos" action="/pages/devices/devices-list.xhtml?faces-redirect=true" />
-                    <p:menuitem value="Catalogo Dispositivos" action="/pages/devicesType/types-list.xhtml?faces-redirect=true" rendered="#{sessionBean.userRole == 'admin' ? true : false}"/>
+                    <p:menuitem value="Catalogo Dispositivos" action="/pages/devicesType/types-list.xhtml?faces-redirect=true" rendered="#{userSessionBean.userRole == 'admin' ? true : false}"/>
                 </p:menubar>    
             </h:form>
         </div>

@@ -76,13 +76,15 @@ public class LoginBean implements Serializable {
         return storedPassword.equals(enteredPassword);
     }
 
-    public String resetLogin() {
+    public String logout() {
         // Restablecer credenciales y otros datos relacionados con la autenticación
         username = null;
         password = null;
-
+        HttpSession session = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+            session.removeAttribute("activeUser");
+            session.removeAttribute("userRole");
         // Otros pasos para restablecer el estado
-        return "login.xhtml"; // Volver a la página de inicio de sesión
+        return "index.xhtml"; // Volver a la página de inicio de sesión
     }
 
     public String getUsername() {

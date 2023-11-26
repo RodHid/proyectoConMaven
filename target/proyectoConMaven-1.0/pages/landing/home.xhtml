@@ -8,9 +8,9 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <h:form class="p-5">
-            <h:outputText value="¡Bienvenido, #{sessionBean.activeUser.username}!" />
+            <h:outputText value="¡Bienvenido, #{userSessionBean.activeUser.username}!" />
             <br />
-            <p:commandButton value="Cerrar Sesión" action="#{sessionBean.logout}" ajax="false" />
+            <p:commandButton value="Cerrar Sesión" action="#{loginBean.logout}" ajax="false" />
         </h:form>       
     </ui:define>
 </ui:composition>

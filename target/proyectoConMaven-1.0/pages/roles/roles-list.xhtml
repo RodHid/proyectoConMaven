@@ -9,8 +9,8 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <h:form class="p-5">
-             <p:inputText value="#{usersRolesBean.searchTerm}" placeholder="Buscar por nombre de rol" /><!-- agregué esto-->
-    <p:commandButton id="rolesTable" value="Buscar" action="#{rolesListBean.searchRoles}" update="userTable" /><!-- agregué esto-->
+             <p:inputText value="#{usersRolesBean.searchTerm}" placeholder="Buscar por nombre de rol" />
+    <p:commandButton id="rolesTable" value="Buscar" action="#{rolesListBean.searchRoles}" update="userTable" />
             <p:confirmDialog global="true">
                 <p:commandButton value="Si" type="button"
                                  styleClass="ui-confirmdialog-yes ui-button-danger" icon="pi pi-check" />

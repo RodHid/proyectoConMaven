@@ -16,8 +16,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
 
 <h:body>
     <h:form class="p-5">
-        <p:inputText value="#{typesListBean.searchTerm}" placeholder="Buscar por nombre de tipo " /><!-- agregué esto-->
-    <p:commandButton value="Buscar" action="#{deviceTypesListBean.searchDeviceTypes}" update="deviceTypesTable" /><!-- agregué esto-->
+        <p:inputText value="#{typesListBean.searchTerm}" placeholder="Buscar por nombre de tipo " />
+    <p:commandButton value="Buscar" action="#{deviceTypesListBean.searchDeviceTypes}" update="deviceTypesTable" />
 
             <p:confirmDialog global="true">
                 <p:commandButton value="Si" type="button"

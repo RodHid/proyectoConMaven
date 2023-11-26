@@ -19,9 +19,8 @@ import java.util.List;
  * @author Usuario
  */
 public class DevicesDao {
-    
 
- private final DatabaseConnection databaseConnection;
+    private final DatabaseConnection databaseConnection;
 
     public DevicesDao(DatabaseConnection databaseConnection) {
         this.databaseConnection = databaseConnection;
@@ -30,8 +29,7 @@ public class DevicesDao {
 
     public void createDevices(Devices device, String selectedType) {
         String sql = "INSERT INTO devices (id, device_name, description, adquisition_date, device_type) VALUES (?, ?, ?, ?, ?)";
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, device.getDeviceName());
             preparedStatement.setString(2, device.getDescription());
             preparedStatement.setDate(3, (Date) device.getAdquisitionDate());
@@ -46,8 +44,7 @@ public class DevicesDao {
 
     public void softDeleteDevice(String deviceId) {
         String sql = "UPDATE devices SET is_active = 0, deleted_at = CURRENT_TIMESTAMP() WHERE id=?";
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, deviceId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -60,9 +57,7 @@ public class DevicesDao {
     public List<Devices> getAllDevices() {
         String sql = "SELECT * FROM devices";
         List<Devices> devices = new ArrayList<>();
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql); ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 devices.add(mapResultSet(resultSet));
             }
@@ -74,10 +69,48 @@ public class DevicesDao {
         return devices;
     }
 
+    // Get Devices By Name (case-insensitive search using LIKE)
+    public List<Devices> getDevicesFilteringByName(String searchTerm) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Devices> devicesList = new ArrayList<>();   
+
+        try {
+            connection = databaseConnection.connect();
+            String sql = "SELECT * FROM devices WHERE LOWER(device_name) LIKE ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + searchTerm.toLowerCase() + "%");
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Devices devices = mapResultSet(resultSet);
+                devicesList.add(devices);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return devicesList;
+    }
+
     public Devices getDeviceById(String deviceId) {
         String sql = "SELECT * FROM devices WHERE id=?";
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, deviceId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -94,8 +127,7 @@ public class DevicesDao {
 
     public void updateDevice(Devices device, String selectedType) {
         String sql = "UPDATE devices SET device_name=?, description=?, adquisition_date=?, device_type=?, updated_at=CURRENT_TIMESTAMP() WHERE id=?";
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, device.getDeviceName());
             preparedStatement.setString(2, device.getDescription());
             preparedStatement.setDate(3, (Date) device.getAdquisitionDate());
@@ -119,10 +151,7 @@ public class DevicesDao {
         device.setIsActive(resultSet.getBoolean("is_active"));
         device.setCreatedAt(resultSet.getDate("created_at"));
         device.setUpdatedAt(resultSet.getDate("updated_at"));
-        device.setDeletedAt(resultSet.getDate("deleted_at") );
+        device.setDeletedAt(resultSet.getDate("deleted_at"));
         return device;
     }
 }
-
-    
-
