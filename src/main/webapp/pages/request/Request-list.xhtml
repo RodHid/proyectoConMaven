@@ -23,19 +23,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
             <div class="flex flex-row justify-content-end mb-3">
                 <p:commandButton value="Crear Nuevo" action="/pages/request/request-form.xhtml?faces-redirect=true"></p:commandButton>
             </div>
-            <p:dataTable var="requestTable" value="#{requestListBean.requestList}" >
+            <p:dataTable id="requestTable" var="requestTable" value="#{requestListBean.requestList}" >
                 <!-- Definir las columnas de la tabla -->
                 <p:column headerText="ID">
-                    <h:outputText value="#{request.id}" />
+                    <h:outputText value="#{requestTable.id}" />
                 </p:column>
                 <p:column headerText="Solicitado por">
-                    <h:outputText value="#{request.requestedBy}" />
+                    <h:outputText value="#{requestTable.requestedBy}" />
                 </p:column>
                 <p:column headerText="Fecha de Préstamo">
-                    <h:outputText value="#{request.loanDate}" />
+                    <h:outputText value="#{requestTable.loanDate}" />
                 </p:column>
                 <p:column headerText="Aceptado por">
-                    <h:outputText value="#{request.acceptedBy}" />
+                    <h:outputText value="#{requestTable.acceptedBy}" />
                 </p:column>
 
                 <p:column headerText="Acciones">

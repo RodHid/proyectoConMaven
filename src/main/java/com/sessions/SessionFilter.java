@@ -20,7 +20,7 @@ import java.io.IOException;
  * @author Rodrigo Hidalgo
  */
 
-@WebFilter(urlPatterns = { "/pages/*" })
+@WebFilter( filterName = "sessionFilter", urlPatterns = { "/pages/*" })
 public class SessionFilter implements Filter {
 
     @Override

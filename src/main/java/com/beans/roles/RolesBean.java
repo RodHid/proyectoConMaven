@@ -7,7 +7,9 @@ package com.beans.roles;
 import com.connection.DatabaseConnection;
 import com.dao.RolesDao;
 import com.persistence.entities.Roles;
+import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,44 +17,46 @@ import java.util.stream.Collectors;
  *
  * @author Usuario
  */
+@Named(value = "rolesBean")
+@RequestScoped
 public class RolesBean {
- 
-
 
     private RolesDao rolesDao;
     private List<Roles> rolesList;
     private Roles selectedRole;
     private String searchTerm;//agregué esto-->
-private List<Roles> filteredRolesList;//agregué esto-->
+    private List<Roles> filteredRolesList;//agregué esto-->
 
-      @Inject
+    @Inject
     roleSessionBean roleSessionBean;
+
     public RolesBean() {
         this.rolesDao = new RolesDao(new DatabaseConnection());
         this.rolesList = rolesDao.getAllRoles();
-        
+
     }
 
     // Métodos de acceso a datos y propiedades
-
     public List<Roles> getRolesList() {
-       if (rolesList == null) {
+        if (rolesList == null) {
             loadRolesList();
         }
         return rolesList;
     }
+
     private void loadRolesList() {
-      if (searchTerm == null || searchTerm.isEmpty()) {
-        rolesList = rolesDao.getAllRoles();
-    } else {
-        searchRoles();
-                }
+        if (searchTerm == null || searchTerm.isEmpty()) {
+            rolesList = rolesDao.getAllRoles();
+        } else {
+            searchRoles();
+        }
     }
+
     public void searchRoles() {//agregue esto
-    // Filtrar la lista de usuarios según el término de búsqueda
-    filteredRolesList = rolesList.stream()
-            .filter(roles -> roles.getName().toLowerCase().contains(searchTerm.toLowerCase()))
-            .collect(Collectors.toList());
+        // Filtrar la lista de usuarios según el término de búsqueda
+        filteredRolesList = rolesList.stream()
+                .filter(roles -> roles.getName().toLowerCase().contains(searchTerm.toLowerCase()))
+                .collect(Collectors.toList());
     }
     
 
@@ -63,13 +67,11 @@ private List<Roles> filteredRolesList;//agregué esto-->
     public void setSelectedRole(Roles selectedRole) {
         this.selectedRole = selectedRole;
     }
+
     public String editRoles(Roles roles) {
         this.roleSessionBean.setSelectedRoles(roles);
         return "user-form.xhtml?faces-redirect=true";
     }
-    
-
-   
 
     // Método para guardar o actualizar un rol
     public void saveRole() {
@@ -110,5 +112,3 @@ private List<Roles> filteredRolesList;//agregué esto-->
         return rolesDao.getRolesById(roleId);
     }
 }
-
-

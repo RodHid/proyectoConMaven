@@ -9,8 +9,8 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <h:form class="p-5">
-             <p:inputText value="#{rolesBean.searchTerm}" placeholder="Buscar por nombre de rol" />
-    <p:commandButton id="rolesTable" value="Buscar" action="#{rolesListBean.searchRoles}" update="userTable" />
+            <p:inputText value="#{rolesBean.searchTerm}" placeholder="Buscar por nombre de rol" />
+            <p:commandButton id="rolesTable" value="Buscar" action="#{rolesBean.searchRoles}" update="userTable" />
             <p:confirmDialog global="true">
                 <p:commandButton value="Si" type="button"
                                  styleClass="ui-confirmdialog-yes ui-button-danger" icon="pi pi-check" />
@@ -18,7 +18,7 @@
                                  styleClass="ui-confirmdialog-no" icon="pi pi-times" />
             </p:confirmDialog>      
 
-            <p:dataTable var="roles" value="#{rolesListBean.rolesList}" >
+            <p:dataTable var="roles" value="#{rolesBean.rolesList}" >
                 <p:column headerText="Nombre de Rol">
                     <h:outputText value="#{roles.name}" />
                 </p:column>
@@ -31,8 +31,8 @@
                 </p:column>
                 <p:column headerText="Acciones">
                     <div class="flex flex-row justify-content-between w-12rem">
-                        <p:commandButton value="Editar" action="#{RolesBean.editRoles(roles)}" styleClass="ui-button-secondary"/>
-                        <p:commandButton value="Eliminar" actionListener="#{RolesBean.deleteSoftRoles(role.id)}" styleClass="ui-button-danger">
+                        <p:commandButton value="Editar" action="#{rolesBean.editRoles(roles)}" styleClass="ui-button-secondary"/>
+                        <p:commandButton value="Eliminar" actionListener="#{rolesBean.deleteSoftRoles(role.id)}" styleClass="ui-button-danger">
                             <p:confirm header="Confirmacion"
                                        message="¿Está seguro de eliminar este Rol?"
                                        icon="pi pi-exclamation-triangle" />

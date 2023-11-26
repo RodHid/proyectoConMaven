@@ -8,9 +8,17 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <h:form class="p-5">
-            <h:outputText value="¡Bienvenido, #{userSessionBean.activeUser.username}!" />
-            <br />
-            <p:commandButton value="Cerrar Sesión" action="#{loginBean.logout}" ajax="false" />
+            <div class="flex flex-column gap-3 justify-content-center text-center">
+                <div class="flex my-2 justify-content-center text-center text-primary">
+                    <h:outputText class="text-4xl" value="¡Bienvenido, #{userSessionBean.activeUser.givenName}!" />
+                </div>
+                <div class="flex my-2 justify-content-center text-center text-color-secondary">
+                    <h:outputText class="text-base" value="Recuerda que tu rol es: #{userSessionBean.userRole}" rendered="#{userSessionBean.userRole == 'admin' ? true : false}" />
+                </div>
+                <div class="flex my-2 justify-content-center text-center">
+                    <p:commandButton value="Cerrar Sesión" action="#{loginBean.logout}" ajax="false" />
+                </div>
+            </div>
         </h:form>       
     </ui:define>
 </ui:composition>

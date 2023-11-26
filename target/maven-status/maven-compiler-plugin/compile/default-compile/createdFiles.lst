@@ -31,6 +31,7 @@ com\dao\DevicesDao.class
 com\beans\devices\DevicesListBean.class
 com\sessions\SessionFilter.class
 com\persistence\entities\Users.class
+com\sessions\UserRoleSessionFilter.class
 com\config\resources\JakartaEE10Resource.class
 com\dao\DeviceTypeDao.class
 com\beans\devices\DevicesFormBean.class
