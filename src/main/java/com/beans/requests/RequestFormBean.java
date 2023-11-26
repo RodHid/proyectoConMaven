@@ -5,6 +5,7 @@
 
 package com.beans.requests;
 
+import com.connection.DatabaseConnection;
 import com.dao.RequestDao;
 import com.dao.RequestedDevicesDao;
 import com.persistence.entities.Request;
@@ -27,16 +28,19 @@ import java.util.UUID;
 @RequestScoped
 public class RequestFormBean {
 
-    @Inject
     private RequestDao requestDAO;
-
-    @Inject
     private RequestedDevicesDao requestedDevicesDAO;
-
     private Request request = new Request();
     private RequestedDevices requestedDevices = new RequestedDevices();
     private List<RequestedDevices> requestedDevicesList = new ArrayList<>();
+    private DatabaseConnection connection;
     
+    public RequestFormBean() {
+        this.connection = new DatabaseConnection();
+        // Inicializacion de las DAOS
+        this.requestDAO = new RequestDao(connection);
+        this.requestedDevicesDAO = new RequestedDevicesDao(connection);
+    }
     // Getters y Setters
 
     public Request getRequest() {

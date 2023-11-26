@@ -12,8 +12,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <h:form  class="p-5">
-             <p:inputText value="#{requestListBean.searchTerm}" placeholder="Buscar por id" /><!-- agregué esto-->
-    <p:commandButton value="Buscar" action="#{requestListBean.searchRequest}" update="requestTable" /><!-- agregué esto-->
+             <p:inputText value="#{requestListBean.searchTerm}" placeholder="Buscar por id" />
+    <p:commandButton value="Buscar" action="#{requestListBean.searchRequest}" update="requestTable" />
             <p:confirmDialog global="true">
                 <p:commandButton value="Si" type="button"
                                  styleClass="ui-confirmdialog-yes ui-button-danger" icon="pi pi-check" />

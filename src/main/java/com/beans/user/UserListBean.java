@@ -17,33 +17,40 @@ import java.util.stream.Collectors;
  * @CopyRight Rodrigo Hidalgo
  * @Date Nov 21, 2023
  */
-
 @Named("usersListBean")
 @RequestScoped
 public class UserListBean implements Serializable {
 
     private List<Users> userList;
     private UsersDao usersDao;
-    private String searchTerm;//agregué esto-->
-private List<Users> filteredUserList;//agregué esto-->
+    private String searchTerm;
+    private List<Users> filteredUserList;
 
     @Inject
     UserSessionBean userSessionBean;
+
+    // Getters and Setters
+
+    public String getSearchTerm() {
+        return searchTerm;
+    }
+
+    public void setSearchTerm(String searchTerm) {
+        this.searchTerm = searchTerm;
+    }
+    
     
     public UserListBean() {
         this.usersDao = new UsersDao(new DatabaseConnection());
         this.userList = this.usersDao.getAllUsers();
     }
-    public void searchUsers() {//agregue esto
-    // Filtrar la lista de usuarios según el término de búsqueda
-    filteredUserList = userList.stream()
-            .filter(user -> user.getUsername().toLowerCase().contains(searchTerm.toLowerCase()))
-            .collect(Collectors.toList());
-}
-    
-    
 
-    public List<Users> getUserList() {//agregue esto
+    public void searchUsers() {
+        // Filtrar la lista de usuarios según el término de búsqueda
+        this.userList = this.usersDao.getUsersByUsername(searchTerm);
+    }
+
+    public List<Users> getUserList() {
         if (userList == null) {
             loadUserList();
         }
@@ -51,11 +58,11 @@ private List<Users> filteredUserList;//agregué esto-->
     }
 
     private void loadUserList() {
-      if (searchTerm == null || searchTerm.isEmpty()) {
-        userList = usersDao.getAllUsers();
-    } else {
-        searchUsers();
-                }
+        if (searchTerm != null && !searchTerm.isEmpty()) {
+            searchUsers(); // Realizar búsqueda si hay un término
+        } else {
+            userList = usersDao.getAllUsers(); // Obtener todos los usuarios si no hay término de búsqueda
+        }
     }
 
     public String editUser(Users user) {
@@ -70,4 +77,3 @@ private List<Users> filteredUserList;//agregué esto-->
         loadUserList();
     }
 }
-

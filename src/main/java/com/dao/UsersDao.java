@@ -113,7 +113,7 @@ public class UsersDao {
 
         return usersList;
     }
-   
+
     //Get User By Username
     public Users getUserByUsername(String username) {
         Connection connection = null;
@@ -128,17 +128,7 @@ public class UsersDao {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                Users user = new Users();
-                user.setId(resultSet.getString("id"));
-                user.setUsername(resultSet.getString("username"));
-                user.setUserPassword(resultSet.getString("user_password"));
-                user.setGivenName(resultSet.getString("given_name"));
-                user.setFamilyName(resultSet.getString("family_name"));
-                user.setIsActive(resultSet.getBoolean("is_active"));
-                user.setCreatedAt(resultSet.getTimestamp("created_at"));
-                user.setUpdatedAt(resultSet.getTimestamp("updated_at"));
-                user.setDeletedAt(resultSet.getTimestamp("deleted_at"));
-
+                Users user = mapResultSetToUser(resultSet);
                 return user;
             }
         } catch (SQLException e) {
@@ -160,6 +150,45 @@ public class UsersDao {
         }
 
         return null;
+    }
+
+    // Get Users By Username (case-insensitive search using LIKE)
+    public List<Users> getUsersByUsername(String searchTerm) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Users> userList = new ArrayList<>();   
+
+        try {
+            connection = databaseConnection.connect();
+            String sql = "SELECT * FROM users WHERE LOWER(username) LIKE ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + searchTerm.toLowerCase() + "%");
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Users user = mapResultSetToUser(resultSet);
+                userList.add(user);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return userList;
     }
 
     // Update
@@ -208,7 +237,7 @@ public class UsersDao {
 
             preparedStatement.setTimestamp(1, new Timestamp(new Date().getTime()));
             preparedStatement.setString(2, userId);
-            
+
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

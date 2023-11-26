@@ -9,9 +9,9 @@
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <h:form  class="p-5">
-            <p:inputText value="#{usersListBean.searchTerm}" placeholder="Buscar por nombre de usuario" /><!-- agregué esto-->
-    <p:commandButton value="Buscar" action="#{usersListBean.searchUsers}" update="userTable" /><!-- agregué esto-->
-    
+            <p:inputText value="#{usersListBean.searchTerm}" placeholder="Buscar por nombre de usuario" />
+            <p:commandButton value="Buscar" action="#{usersListBean.searchUsers}" update="userTable" />
+
             <p:confirmDialog global="true">
                 <p:commandButton value="Si" type="button"
                                  styleClass="ui-confirmdialog-yes ui-button-danger" icon="pi pi-check" />
@@ -21,8 +21,8 @@
             <div class="flex flex-row justify-content-end mb-3">
                 <p:commandButton value="Crear Nuevo" action="/pages/user/user-form.xhtml?faces-redirect=true"></p:commandButton>
             </div>
-            <p:dataTable id="userTable" var="user" value="#{userListBean.filteredUserList}"><!-- agregué esto-->
-         <p:column headerText="Nombre de Usuario">
+            <p:dataTable id="userTable" var="user" value="#{usersListBean.userList}">
+                <p:column headerText="Nombre de Usuario">
                     <h:outputText value="#{user.username}" />
                 </p:column>
                 <p:column headerText="Nombre Completo">
