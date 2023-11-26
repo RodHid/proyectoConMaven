@@ -54,6 +54,7 @@ private List<Roles> filteredRolesList;//agregué esto-->
             .filter(roles -> roles.getName().toLowerCase().contains(searchTerm.toLowerCase()))
             .collect(Collectors.toList());
     }
+    
 
     public Roles getSelectedRole() {
         return selectedRole;

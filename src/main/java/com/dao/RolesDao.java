@@ -5,7 +5,7 @@
 package com.dao;
 
 /**
-  * @ClassName: RolesDao
+ * @ClassName: RolesDao
  * @Package: com.dao
  * @Date: Nov 19, 2023
  * @CopyRigth: Manuel Molina
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RolesDao {
+
     private final DatabaseConnection databaseConnection;
 
     public RolesDao(DatabaseConnection databaseConnection) {
@@ -28,28 +29,23 @@ public class RolesDao {
     }
 
     // Métodos CRUD
-
     public void createRoles(Roles role) {
-         String sql = "INSERT INTO roles (name, description) VALUES (?, ?)";
-                 try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, role.getName());
-               preparedStatement.setString(2, role.getDescription());
-                preparedStatement.executeUpdate();
-            
+        String sql = "INSERT INTO roles (name, description) VALUES (?, ?)";
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, role.getName());
+            preparedStatement.setString(2, role.getDescription());
+            preparedStatement.executeUpdate();
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             databaseConnection.disconnect();
         }
-    }   
-       
+    }
 
-    
-   public void softDeleteRoles(String roleId) {
+    public void softDeleteRoles(String roleId) {
         String sql = "UPDATE roles SET is_active = 0 WHERE id=?";
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, roleId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -61,8 +57,7 @@ public class RolesDao {
 
     public void updateRoles(Roles role) {
         String sql = "UPDATE roles SET name=?, description=? WHERE id=?";
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, role.getName());
             preparedStatement.setString(2, role.getDescription());
             preparedStatement.setString(3, role.getId());
@@ -73,11 +68,49 @@ public class RolesDao {
             databaseConnection.disconnect();
         }
     }
+    // Get Roles By Name (case-insensitive search using LIKE)
+
+    public List<Roles> getRolesFilteringByName(String searchTerm) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        List<Roles> rolesList = new ArrayList<>();
+
+        try {
+            connection = databaseConnection.connect();
+            String sql = "SELECT * FROM roles WHERE LOWER(roles_name) LIKE ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%" + searchTerm.toLowerCase() + "%");
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Roles roles = mapResultSet(resultSet);
+                rolesList.add(roles);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return rolesList;
+    }
 
     public void deleteRoles(String roleId) {
         String sql = "DELETE FROM roles WHERE id=?";
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, roleId);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -89,8 +122,7 @@ public class RolesDao {
 
     public Roles getRolesById(String roleId) {
         String sql = "SELECT * FROM roles WHERE id=?";
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, roleId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -108,9 +140,7 @@ public class RolesDao {
     public List<Roles> getAllRoles() {
         String sql = "SELECT * FROM roles";
         List<Roles> roles = new ArrayList<>();
-        try (Connection connection = databaseConnection.connect();
-             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+        try (Connection connection = databaseConnection.connect(); PreparedStatement preparedStatement = connection.prepareStatement(sql); ResultSet resultSet = preparedStatement.executeQuery()) {
             while (resultSet.next()) {
                 roles.add(mapResultSet(resultSet));
             }

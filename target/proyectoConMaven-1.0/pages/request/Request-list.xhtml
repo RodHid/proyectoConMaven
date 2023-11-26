@@ -12,8 +12,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <h:form  class="p-5">
-             <p:inputText value="#{requestListBean.searchTerm}" placeholder="Buscar por id" />
-    <p:commandButton value="Buscar" action="#{requestListBean.searchRequest}" update="requestTable" />
+            <p:inputText value="#{requestListBean.searchTerm}" placeholder="Buscar por id" />
+            <p:commandButton value="Buscar" action="#{requestListBean.searchRequest}" update="requestTable" />
             <p:confirmDialog global="true">
                 <p:commandButton value="Si" type="button"
                                  styleClass="ui-confirmdialog-yes ui-button-danger" icon="pi pi-check" />
@@ -23,7 +23,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
             <div class="flex flex-row justify-content-end mb-3">
                 <p:commandButton value="Crear Nuevo" action="/pages/request/request-form.xhtml?faces-redirect=true"></p:commandButton>
             </div>
-            <p:dataTable var="requestTable" value="#{requestListBean.filteredRequestList}" >
+            <p:dataTable var="requestTable" value="#{requestListBean.requestList}" >
                 <!-- Definir las columnas de la tabla -->
                 <p:column headerText="ID">
                     <h:outputText value="#{request.id}" />
@@ -37,10 +37,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                 <p:column headerText="Aceptado por">
                     <h:outputText value="#{request.acceptedBy}" />
                 </p:column>
-     
+
                 <p:column headerText="Acciones">
                     <div class="flex flex-row justify-content-between w-12rem">
-<!--   <p:commandButton value="Editar" action="" styleClass="ui-button-secondary"/>-->
+                        <!--   <p:commandButton value="Editar" action="" styleClass="ui-button-secondary"/>-->
                         <p:commandButton value="Eliminar" actionListener="#{requestBean.deleteSoftRequest(requestId)}" styleClass="ui-button-danger">
                             <p:confirm header="Confirmacion"
                                        message="¿Está seguro de eliminar esta Solicitud?"

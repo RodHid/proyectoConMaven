@@ -12,8 +12,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
                 xmlns:p="http://primefaces.org/ui">
     <ui:define name="content">
         <h:form class="p-5">
-            <p:inputText value="#{devicesListBean.searchTerm}" placeholder="Buscar por nombre de dispositivo" />
-            <p:commandButton value="Buscar" action="#{devicesListBean.searchDevices}" update="devicesTable" />
+            <p:inputText value="#{devicesListBean.searchTerm}" placeholder="Buscar por nombre de usuario" />
+            <p:commandButton value="Buscar" action="#{devicesListBean.searchUsers}" update="devicesTable" />
             <p:confirmDialog global="true">
                 <p:commandButton value="Si" type="button"
                                  styleClass="ui-confirmdialog-yes ui-button-danger" icon="pi pi-check" />
@@ -23,7 +23,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/XHtml.xhtml to edit t
             <div class="flex flex-row justify-content-end mb-3">
                 <p:commandButton value="Crear Nuevo" action="/pages/devices/devices-form.xhtml?faces-redirect=true"></p:commandButton>
             </div>
-            <p:dataTable var="device" value="#{devicesListBean.filteredDevicesList}" >
+            <p:dataTable var="device" value="#{devicesListBean.devicesList}" >
                 <p:column headerText="Nombre del Dispositivo">
                     <h:outputText value="#{device.deviceName}" />
                 </p:column>
